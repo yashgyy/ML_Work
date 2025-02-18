@@ -1,0 +1,12 @@
+HIGGS
+https://www.kaggle.com/datasets/erikbiswas/higgs-uci-dataset
+
+Customer Preidictions
+
+https://www.kaggle.com/c/santander-customer-transaction-prediction/data?select=train.csv
+
+SUSY 
+
+https://mlphysics.ics.uci.edu/data/susy/
+
+Motivates the ability to human to pick up and scruntizne the small segments of the life even though it only causes pain and inabilityb to move forward. Essential to move forward by broadening the sccope of ones life.
