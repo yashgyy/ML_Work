@@ -90,7 +90,7 @@ int main() {
 
         std::vector<std::vector<double>> features;
         std::vector<double> labels;
-        load_data("Regression_1m_v3.csv", features, labels);
+        load_data("../Datasets/Regression_1m_v3.csv", features, labels);
 
         MatrixXd local_data(features.size(), features[0].size());
         VectorXd local_labels(labels.size());
