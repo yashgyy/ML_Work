@@ -4,9 +4,9 @@
 #include <random>
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
-#include "data_loader.cpp" // Include the data loader
-//include "data_loader_susy.cpp"
-//include "data_loader_higgs.cpp"
+//#include "data_loader.cpp" // Include the data loader
+//#include "data_loader_susy.cpp"
+#include "data_loader_higgs.cpp"
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
@@ -106,8 +106,8 @@ void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& label
     }
         std::vector<std::vector<float>> test_features;
         std::vector<int> test_labels;
-        load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
-        //load_data("../Datasets/SUSY.csv", test_features, test_labels);
+        //load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
+        load_data("../Datasets/SUSY.csv", test_features, test_labels);
         //load_data("../Datasets/HIGGS.csv", test_features, test_labels);
 
         MatrixXd test_data(test_features.size(), test_features[0].size());
@@ -128,8 +128,8 @@ int main() {
         
         std::vector<std::vector<float>> features;
         std::vector<int> labels;
-        load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
-        //load_data("../Datasets/SUSY.csv", features, labels);
+        //load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+        load_data("../Datasets/SUSY.csv", features, labels);
         //load_data("../Datasets/HIGGS.csv", features, labels);
 
         // **Convert std::vector<std::vector<float>> to Eigen::MatrixXd**
