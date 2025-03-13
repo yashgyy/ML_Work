@@ -110,8 +110,8 @@ int main() {
         // Load data from train.csv
         std::vector<std::vector<float>> features;
         std::vector<int> labels;
-        load_data("/home/yash/Work/Profiling_Fed/ML/KernelSVM/train.csv", features, labels);
-
+        //load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+        load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
         // Convert to Eigen matrices
         MatrixXd local_data(features.size(), features[0].size());
         VectorXd local_labels(labels.size());

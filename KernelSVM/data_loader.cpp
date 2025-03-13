@@ -15,7 +15,7 @@ void load_data(const std::string& filename,
         std::cerr << "[ERROR] Could not open file: " << filename << std::endl;
         return;
     }
-
+    //std::cout<<filename;
     // Read the header line and skip it
     std::getline(file, line);
 

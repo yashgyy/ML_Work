@@ -6,6 +6,7 @@
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
 #include "data_loader.cpp"  // Include the data loader
+// g++ client_updated.cpp -o client  -I /usr/include/eigen3
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
