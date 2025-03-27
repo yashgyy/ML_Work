@@ -1,103 +1,120 @@
+// Refactored Federated Linear SVM Client (based on K_client structure)
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <random>
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
+//#include "data_loader.cpp"
+//#include "data_loader_susy.cpp"
+#include "data_loader_higgs.cpp"
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-// Shuffle data to simulate different local datasets for each client
-MatrixXd load_local_data() {
-    MatrixXd data(4, 2); // 4 samples, 2 features
-    data << 1, 2,
-            2, 1,
-            3, 4,
-            4, 3;
+const double LEARNING_RATE = 0.01;
+const int MAX_EPOCHS = 1;
+const int TRAIN_BATCH_SIZE = 2;
+const int NETWORK_BATCH_SIZE = 100;
 
-    // Shuffle rows of data to simulate different client data
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::vector<int> indices = {0, 1, 2, 3};
-    std::shuffle(indices.begin(), indices.end(), g);
+// Hinge loss derivative for Linear SVM
+VectorXd compute_svm_gradient(const MatrixXd& X, const VectorXd& y, const VectorXd& weights) {
+    VectorXd gradient = VectorXd::Zero(weights.size());
+    int n = X.rows();
 
-    MatrixXd shuffled_data(4, 2);
-    for (int i = 0; i < 4; ++i) {
-        shuffled_data.row(i) = data.row(indices[i]);
-    }
-
-    return shuffled_data;
-}
-
-VectorXd load_local_labels() {
-    VectorXd labels(4); // 4 samples
-    labels << 1, 1, -1, -1;
-    return labels;
-}
-
-// Perform one step of training using SGD
-VectorXd train_local_svm(const MatrixXd& data, const VectorXd& labels, VectorXd& weights, double learning_rate) {
-    int n_samples = data.rows();
-    int n_features = data.cols();
-
-    VectorXd gradient = VectorXd::Zero(n_features);
-
-    for (int i = 0; i < n_samples; ++i) {
-        VectorXd xi = data.row(i);
-        double yi = labels(i);
-
-        // Calculate gradient for hinge loss
-        if (yi * (xi.dot(weights)) < 1) {
-            gradient += -yi * xi;
+    for (int i = 0; i < n; ++i) {
+        VectorXd xi = X.row(i);
+        double yi = y(i);
+        if (yi * xi.dot(weights) < 1) {
+            gradient -= yi * xi;
         }
     }
 
-    // Update weights
-    weights -= learning_rate * gradient;
+    gradient /= n; // Average over batch
+    return gradient;
+}
 
-    return weights;
+void send_in_batches(tcp::socket& socket, const VectorXd& data) {
+    int total_size = data.size();
+    int sent = 0;
+    while (sent < total_size) {
+        int batch_size = std::min(NETWORK_BATCH_SIZE, total_size - sent);
+        boost::asio::write(socket, boost::asio::buffer(data.data() + sent, batch_size * sizeof(double)));
+        sent += batch_size;
+    }
+}
+
+void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& labels, VectorXd& weights) {
+    int n_samples = data.rows();
+    int n_features = data.cols();
+
+    for (int epoch = 0; epoch < MAX_EPOCHS; ++epoch) {
+        std::cout << "[INFO] Starting Epoch " << epoch + 1 << std::endl;
+
+        std::vector<int> indices(n_samples);
+        std::iota(indices.begin(), indices.end(), 0);
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(indices.begin(), indices.end(), g);
+
+        for (int i = 0; i < n_samples; i += TRAIN_BATCH_SIZE) {
+            int batch_size = std::min(TRAIN_BATCH_SIZE, n_samples - i);
+            MatrixXd batch_X(batch_size, n_features);
+            VectorXd batch_y(batch_size);
+
+            for (int j = 0; j < batch_size; ++j) {
+                batch_X.row(j) = data.row(indices[i + j]);
+                batch_y(j) = labels(indices[i + j]);
+            }
+
+            VectorXd gradient = compute_svm_gradient(batch_X, batch_y, weights);
+
+            // Send batch metadata
+            boost::asio::write(socket, boost::asio::buffer(&batch_size, sizeof(int)));
+            boost::asio::write(socket, boost::asio::buffer(&n_features, sizeof(int)));
+
+            // Send gradient
+            send_in_batches(socket, gradient);
+
+            // Receive updated global model
+            boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
+
+            std::cout << "[DEBUG] Updated weights received: " << weights.transpose() << std::endl;
+        }
+    }
 }
 
 int main() {
     try {
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
+
+        std::vector<std::vector<float>> features;
+        std::vector<int> labels;
+        //load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+        //load_data("../Datasets/SUSY.csv", features, labels);
+        load_data("../Datasets/HIGGS.csv", features, labels);
+
+
+        MatrixXd data(features.size(), features[0].size());
+        VectorXd label_vec(labels.size());
+        for (size_t i = 0; i < features.size(); ++i) {
+            for (size_t j = 0; j < features[i].size(); ++j) {
+                data(i, j) = features[i][j];
+            }
+            label_vec(i) = labels[i];
+        }
+
+        VectorXd weights = VectorXd::Random(data.cols());
+        
+  
+
         socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
 
-        // Load local data
-        MatrixXd local_data = load_local_data();
-        VectorXd local_labels = load_local_labels();
-
-        // Initialize local model weights with small random values
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::normal_distribution<> d(0, 0.01); // Small random values
-        VectorXd local_weights = VectorXd::Zero(local_data.cols()).unaryExpr([&](double dummy) { return d(gen); });
-
-        double learning_rate = 0.01;
-
-        // Perform local training (single step for simplicity)
-        VectorXd updated_weights = train_local_svm(local_data, local_labels, local_weights, learning_rate);
-
-        // Print local update
-        std::cout << "Local model update: " << updated_weights.transpose() << std::endl;
-
-        // Send the size of the vector first
-        int vector_size = updated_weights.size();
-        boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
-
-        // Send local update (weights) to server
-        boost::asio::write(socket, boost::asio::buffer(updated_weights.data(), updated_weights.size() * sizeof(double)));
-
-        // Receive updated global model from server
-        VectorXd global_model(local_weights.size());
-        boost::asio::read(socket, boost::asio::buffer(global_model.data(), global_model.size() * sizeof(double)));
-
-        std::cout << "Received updated global model: " << global_model.transpose() << std::endl;
-    } catch (std::exception& e) {
-        std::cerr << "Exception in client: " << e.what() << std::endl;
+        train_and_send_batches(socket, data, label_vec, weights);
+        socket.close();
+    } catch (const std::exception& e) {
+        std::cerr << "[ERROR] Exception in client: " << e.what() << std::endl;
     }
-
     return 0;
 }

@@ -15,7 +15,7 @@ void load_data(const std::string& filename,
         std::cerr << "[ERROR] Could not open file: " << filename << std::endl;
         return;
     }
-    //std::cout<<filename;
+
     // Read the header line and skip it
     std::getline(file, line);
 
@@ -28,10 +28,10 @@ void load_data(const std::string& filename,
 
         int column_index = 0;
         while (std::getline(ss, value, ',')) {
-            if (column_index == 1) {
+            if (column_index == 0) {
                 // 'target' column (label)
                 label = std::stoi(value);
-            } else if (column_index >= 2) {
+            } else if (column_index >= 1) {
                 // Feature columns (var_0 to var_199)
                 feature_row.push_back(std::stof(value));
             }

@@ -1,64 +1,72 @@
+// Refactored Federated Linear SVM Server (based on K_Server structure)
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <boost/asio.hpp>
-#include <mutex>
 #include <Eigen/Dense>
-//g++ server_continue.cpp -o server  -I /usr/include/eigen3
+#include <mutex>
+#include <numeric>
+#include "data_loader.cpp"
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
 std::mutex model_mutex;
 VectorXd global_weights;
-
-VectorXd total_weights = VectorXd::Zero(global_weights.size());  // Initialize to zero
+VectorXd total_gradients;
+std::vector<int> client_data_sizes;
 int client_count = 0;
 
-void aggregate_model(const VectorXd& local_update) {
+const int BATCH_SIZE = 100;
+
+void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
     std::lock_guard<std::mutex> lock(model_mutex);
-    total_weights += local_update;
+
+    if (global_weights.size() == 0) {
+        global_weights = VectorXd::Zero(batch_gradient.size());
+        total_gradients = VectorXd::Zero(batch_gradient.size());
+    }
+
+    total_gradients += batch_gradient * batch_size;
+    client_data_sizes.push_back(batch_size);
     client_count++;
-    global_weights = total_weights / client_count;
-    std::cout << "[DEBUG] Aggregated global model weights: " << global_weights.transpose() << std::endl;
+
+    int total_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
+    global_weights -= (total_gradients / total_points);
+
+    std::cout << "[DEBUG] Updated global weights: " << global_weights.transpose() << std::endl;
+    total_gradients.setZero();
 }
 
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[DEBUG] Handling new client connection." << std::endl;
+        std::cout << "[DEBUG] Client connected." << std::endl;
 
-        // Read the size of the incoming vector first
-        int vector_size;
-        boost::asio::read(socket, boost::asio::buffer(&vector_size, sizeof(int)));
+        while (true) {
+            int batch_size = 0, vector_size = 0;
+            boost::asio::read(socket, boost::asio::buffer(&batch_size, sizeof(int)));
+            boost::asio::read(socket, boost::asio::buffer(&vector_size, sizeof(int)));
 
-        // Resize the local update vector based on the size received
-        VectorXd local_update(vector_size);
+            if (vector_size <= 0 || vector_size > 1e7) {
+                std::cerr << "[ERROR] Invalid vector size." << std::endl;
+                return;
+            }
 
-        std::cout << "[DEBUG] Waiting to receive data from client..." << std::endl;
+            VectorXd batch_gradient = VectorXd::Zero(vector_size);
+            int received = 0;
+            while (received < vector_size) {
+                int chunk_size = std::min(BATCH_SIZE, vector_size - received);
+                boost::asio::read(socket, boost::asio::buffer(batch_gradient.data() + received, chunk_size * sizeof(double)));
+                received += chunk_size;
+            }
 
-        // Read local update from client
-        boost::asio::read(socket, boost::asio::buffer(local_update.data(), local_update.size() * sizeof(double)));
-        std::cout << "[DEBUG] Received local update of size: " << local_update.size() << std::endl;
+            apply_gradient_update(batch_gradient, batch_size);
 
-        // Initialize global_weights and total_weights if not already initialized
-        if (global_weights.size() == 0) {
-            global_weights = VectorXd::Zero(local_update.size());  // Initialize to correct size
-            total_weights = VectorXd::Zero(local_update.size());   // Initialize to the same size
-            std::cout << "[DEBUG] Initialized global_weights and total_weights with size: " << global_weights.size() << std::endl;
+            boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
+            std::cout << "[DEBUG] Sent global model to client." << std::endl;
         }
 
-        // Ensure sizes match before aggregating
-        if (global_weights.size() == local_update.size()) {
-            aggregate_model(local_update);
-        } else {
-            std::cerr << "[ERROR] Size mismatch between global model and local update!" << std::endl;
-        }
-
-        // Send updated global model back to client
-        boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
-        std::cout << "[DEBUG] Sent updated global model to client." << std::endl;
-
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in handle_client: " << e.what() << std::endl;
     }
 }
@@ -68,20 +76,16 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
 
-        std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
+        std::cout << "[INFO] Server started. Waiting for clients...\n";
 
         while (true) {
             tcp::socket socket(io_context);
-            std::cout << "[DEBUG] Waiting for new client connection..." << std::endl;
             acceptor.accept(socket);
-            std::cout << "[DEBUG] Client connected." << std::endl;
-
-            // Start a thread to handle each client
             std::thread(handle_client, std::move(socket)).detach();
         }
-    } catch (std::exception& e) {
-        std::cerr << "[ERROR] Exception in main: " << e.what() << std::endl;
-    }
 
+    } catch (const std::exception& e) {
+        std::cerr << "[ERROR] Exception in server: " << e.what() << std::endl;
+    }
     return 0;
 }
