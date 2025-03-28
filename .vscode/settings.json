@@ -74,6 +74,10 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "charconv": "cpp",
+        "format": "cpp",
+        "shared_mutex": "cpp",
+        "span": "cpp"
     }
 }

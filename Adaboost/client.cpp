@@ -3,6 +3,8 @@
 #include <random>
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
+#include "data_loader.cpp"
+#include <ostream>
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
@@ -78,16 +80,36 @@ int main() {
     boost::asio::connect(socket, resolver.resolve({"127.0.0.1", "8080"}));
 
     // Load local data
-    MatrixXd data(4, 2); // Example data (4 samples, 2 features)
-    data << 1, 2,
-            2, 1,
-            3, 4,
-            4, 3;
-    VectorXd labels(4);
-    labels << 1, 1, -1, -1;
+    // MatrixXd data(4, 2); // Example data (4 samples, 2 features)
+    // data << 1, 2,
+    //         2, 1,
+    //         3, 4,
+    //         4, 3;
+    // VectorXd labels(4);
+    // labels << 1, 1, -1, -1;
+
+     std::vector<std::vector<float>> features;
+     std::vector<int> labels;
+    load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+    //load_data("../Datasets/SUSY.csv", features, labels);
+    //load_data("../Datasets/HIGGS.csv", features, labels);
+
+    std::cout<<"DONE1"<<std::endl;
+    std::cout<<"DONE2"<<std::endl;
+    MatrixXd data(features.size(), features[0].size());
+    VectorXd label_vec(labels.size());
+    for (size_t i = 0; i < features.size(); ++i) {
+        for (size_t j = 0; j < features[i].size(); ++j) {
+            data(i, j) = features[i][j];
+        }
+        label_vec(i) = labels[i];
+    }
+
+    VectorXd weights = VectorXd::Random(data.cols());
+    std::cout<<"DONE"<<std::endl;
 
     // Train AdaBoost on local data
-    std::vector<WeakLearner> learners = train_adaboost(data, labels, 5);
+    std::vector<WeakLearner> learners = train_adaboost(data, label_vec, 5);
 
     // Serialize the learners
     std::vector<double> serialized_learners = serialize_learners(learners);
