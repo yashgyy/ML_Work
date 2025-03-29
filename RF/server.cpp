@@ -1,69 +1,89 @@
+// Federated Random Forest Server (Batch-wise Epoch-based Aggregation)
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <boost/asio.hpp>
 #include <mutex>
-#include <Eigen/Dense>
-#include <map>
 
-using namespace Eigen;
 using boost::asio::ip::tcp;
 
-struct TreeNode {
-    int feature_index = -1;
-    double threshold = 0.0;
-    double prediction = 0.0;
-    TreeNode* left = nullptr;
-    TreeNode* right = nullptr;
+struct DecisionTree {
+    int feature_index;
+    float threshold;
+    int class_label;
 };
 
-std::mutex model_mutex;
-std::vector<std::vector<TreeNode*>> aggregated_forests;
+std::mutex forest_mutex;
+std::vector<DecisionTree> global_forest;
 
-TreeNode* deserialize_tree_node(const std::vector<double>& serialized_tree, int& index);
-void perform_predictions();
-void aggregate_forests(const std::vector<TreeNode*>& forest);
+std::vector<DecisionTree> deserialize_trees(const std::vector<double>& serialized, int count) {
+    std::vector<DecisionTree> trees;
+    for (int i = 0; i < count; ++i) {
+        trees.push_back({static_cast<int>(serialized[i * 3]),
+                         static_cast<float>(serialized[i * 3 + 1]),
+                         static_cast<int>(serialized[i * 3 + 2])});
+    }
+    return trees;
+}
+
+std::vector<double> serialize_trees(const std::vector<DecisionTree>& trees) {
+    std::vector<double> serialized;
+    for (const auto& tree : trees) {
+        serialized.push_back(tree.feature_index);
+        serialized.push_back(tree.threshold);
+        serialized.push_back(tree.class_label);
+    }
+    return serialized;
+}
 
 void handle_client(tcp::socket socket) {
     try {
-        int forest_size;
-        boost::asio::read(socket, boost::asio::buffer(&forest_size, sizeof(int)));
+        std::cout << "[INFO] New client connected.\n";
 
-        std::vector<TreeNode*> local_forest(forest_size);
-        for (int i = 0; i < forest_size; ++i) {
-            int tree_size;
-            boost::asio::read(socket, boost::asio::buffer(&tree_size, sizeof(int)));
+        while (true) {
+            int num_trees = 0, vec_size = 0;
+            boost::system::error_code ec;
+            boost::asio::read(socket, boost::asio::buffer(&num_trees, sizeof(int)), ec);
+            if (ec) break; // Client closed connection
 
-            std::vector<double> serialized_tree(tree_size);
-            boost::asio::read(socket, boost::asio::buffer(serialized_tree.data(), tree_size * sizeof(double)));
+            boost::asio::read(socket, boost::asio::buffer(&vec_size, sizeof(int)));
+            std::vector<double> serialized(vec_size);
+            boost::asio::read(socket, boost::asio::buffer(serialized.data(), vec_size * sizeof(double)));
 
-            int index = 0;
-            local_forest[i] = deserialize_tree_node(serialized_tree, index);
+            std::vector<DecisionTree> trees = deserialize_trees(serialized, num_trees);
+            {
+                std::lock_guard<std::mutex> lock(forest_mutex);
+                global_forest.insert(global_forest.end(), trees.begin(), trees.end());
+            }
+
+            std::vector<double> global_serialized;
+            {
+                std::lock_guard<std::mutex> lock(forest_mutex);
+                global_serialized = serialize_trees(global_forest);
+            }
+
+            int global_vec_size = global_serialized.size();
+            boost::asio::write(socket, boost::asio::buffer(&global_vec_size, sizeof(int)));
+            boost::asio::write(socket, boost::asio::buffer(global_serialized.data(), global_vec_size * sizeof(double)));
         }
 
-        std::lock_guard<std::mutex> lock(model_mutex);
-        aggregated_forests.push_back(local_forest);
-
-        std::cout << "[INFO] Forest from client received and aggregated.\n";
+        std::cout << "[INFO] Client disconnected.\n";
 
     } catch (const std::exception& e) {
-        std::cerr << "[ERROR] Exception in handle_client: " << e.what() << std::endl;
+        std::cerr << "[ERROR] Exception in server handler: " << e.what() << std::endl;
     }
 }
 
 int main() {
     try {
-        boost::asio::io_service io_service;
-        tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), 8080));
-
-        std::cout << "[INFO] Server started on port 8080...\n";
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
+        std::cout << "[INFO] Federated RF Server running on port 8080...\n";
 
         while (true) {
-            tcp::socket socket(io_service);
+            tcp::socket socket(io_context);
             acceptor.accept(socket);
             std::thread(handle_client, std::move(socket)).detach();
-
-            perform_predictions();
         }
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in main: " << e.what() << std::endl;
