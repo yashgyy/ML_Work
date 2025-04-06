@@ -113,7 +113,7 @@ int main() {
             // Receive updated global centroids
             receive_matrix(socket, centroids);
 
-            std::cout << "[INFO] Iteration " << iter + 1 << " updated centroids:\n" << centroids << std::endl;
+            //std::cout << "[INFO] Iteration " << iter + 1 << " updated centroids:\n" << centroids << std::endl;
         }
         socket.close();
 

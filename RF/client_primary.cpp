@@ -116,7 +116,7 @@ int main() {
             boost::asio::read(socket, boost::asio::buffer(global_serialized.data(), global_vec_size * sizeof(double)));
 
             std::vector<DecisionTree> global_forest = deserialize_trees(global_serialized);
-            std::cout << "[INFO] Epoch " << epoch + 1 << ": Global forest size = " << global_forest.size() << std::endl;
+            //std::cout << "[INFO] Epoch " << epoch + 1 << ": Global forest size = " << global_forest.size() << std::endl;
         }
 
         socket.close();

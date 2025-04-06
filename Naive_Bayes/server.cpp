@@ -53,8 +53,8 @@ void process_batches(tcp::socket& socket) {
             boost::asio::read(socket, boost::asio::buffer(&total_samples, sizeof(int)));
             boost::asio::read(socket, boost::asio::buffer(&num_classes, sizeof(int)));
             boost::asio::read(socket, boost::asio::buffer(&num_features, sizeof(int)));
-            std::cout << "[DEBUG] Total samples in dataset: " << total_samples << std::endl;
-            std::cout<<"Number of features "<<num_features<<std::endl;
+            //std::cout << "[DEBUG] Total samples in dataset: " << total_samples << std::endl;
+            //std::cout<<"Number of features "<<num_features<<std::endl;
 
             if (global_means.empty()) {
                 // Initialize global structures
@@ -86,7 +86,7 @@ void process_batches(tcp::socket& socket) {
                 boost::asio::write(socket, boost::asio::buffer(&global_priors[c], sizeof(double)));
             }
 
-            std::cout << "[DEBUG] Processed batch for Class 0 and Class 1." << std::endl;
+            //std::cout << "[DEBUG] Processed batch for Class 0 and Class 1." << std::endl;
 
             
         }
@@ -105,13 +105,13 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
 
-        std::cout << "[DEBUG] Server started. Waiting for clients..." << std::endl;
+        //std::cout << "[DEBUG] Server started. Waiting for clients..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
 
-            std::cout << "[DEBUG] Client connected." << std::endl;
+            //std::cout << "[DEBUG] Client connected." << std::endl;
 
             // Use std::move to transfer ownership of the socket
             std::thread(handle_client, std::move(socket)).detach();

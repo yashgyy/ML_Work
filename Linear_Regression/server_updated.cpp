@@ -31,7 +31,7 @@ void aggregate_model(const VectorXd& local_update) {
         global_weights = VectorXd::Zero(local_update.size());
         total_weights = VectorXd::Zero(local_update.size());
         client_count = 0; // Reset client count when reinitializing
-        std::cout << "[INFO] Initialized global weights and total weights." << std::endl;
+        //std::cout << "[INFO] Initialized global weights and total weights." << std::endl;
     }
 
     double scaling_factor = 1.0 / (1.0 + client_count);
@@ -44,15 +44,15 @@ void aggregate_model(const VectorXd& local_update) {
         global_weights.setZero();
     }
 
-    std::cout << "[DEBUG] Aggregated global weights (first 10): "
-              << global_weights.head(10).transpose() << std::endl;
+    //std::cout << "[DEBUG] Aggregated global weights (first 10): "
+         //     << global_weights.head(10).transpose() << std::endl;
 }
 
 
 // Handle communication with a client
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[DEBUG] Handling new client connection." << std::endl;
+        //std::cout << "[DEBUG] Handling new client connection." << std::endl;
 
         // Read the size of the incoming weight vector
         int vector_size = 0;
@@ -66,7 +66,7 @@ void handle_client(tcp::socket socket) {
             return;
         }
 
-        std::cout << "[DEBUG] Received vector size: " << vector_size << std::endl;
+        //std::cout << "[DEBUG] Received vector size: " << vector_size << std::endl;
 
         if (vector_size <= 0 || vector_size > 1e7) {
             std::cerr << "[ERROR] Invalid vector size received: " << vector_size << std::endl;
@@ -77,7 +77,7 @@ void handle_client(tcp::socket socket) {
             VectorXd local_update = VectorXd::Zero(vector_size);
             int received = 0;
 
-            std::cout << "[DEBUG] Receiving data in batches..." << std::endl;
+            //std::cout << "[DEBUG] Receiving data in batches..." << std::endl;
 
             while (received < vector_size) {
                 int batch_size = std::min(BATCH_SIZE, vector_size - received);
@@ -87,15 +87,15 @@ void handle_client(tcp::socket socket) {
                 received += batch_size;
             }
 
-            std::cout << "[DEBUG] First 10 weights received: " 
-                      << local_update.head(10).transpose() << std::endl;
+            //std::cout << "[DEBUG] First 10 weights received: " 
+                    //  << local_update.head(10).transpose() << std::endl;
 
             aggregate_model(local_update);
 
             boost::asio::write(socket, boost::asio::buffer(
                 global_weights.data(), global_weights.size() * sizeof(double)));
 
-            std::cout << "[DEBUG] Sent updated global model to client." << std::endl;
+            //std::cout << "[DEBUG] Sent updated global model to client." << std::endl;
         }
 
     } catch (const std::exception& e) {
@@ -109,12 +109,12 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
 
-        std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
+        //std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            std::cout << "[DEBUG] Client connected." << std::endl;
+            //std::cout << "[DEBUG] Client connected." << std::endl;
 
             std::thread(handle_client, std::move(socket)).detach();
         }

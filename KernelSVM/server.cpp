@@ -26,17 +26,17 @@ void aggregate_model(const VectorXd& local_update) {
 void handle_client(tcp::socket socket) {
     try {
 
-        std::cout<<"Client Connected"<<std::endl;
+        //std::cout<<"Client Connected"<<std::endl;
         
         //boost::asio::read(socket, boost::asio::buffer(&vector_size, sizeof(int)));
 
         while (true) {
             int batch_size = 0;
             int vector_size = 0;
-            //std::cout<<"Before Read"<<std::endl;
+            ////std::cout<<"Before Read"<<std::endl;
             boost::asio::read(socket, boost::asio::buffer(&batch_size, sizeof(int)));
             boost::asio::read(socket, boost::asio::buffer(&vector_size, sizeof(int)));
-            //std::cout<<"After Read"<<std::endl;
+            ////std::cout<<"After Read"<<std::endl;
             if (vector_size <= 0 || vector_size > 1e9) {
                 std::cerr << "[ERROR] Invalid vector size: " << vector_size << std::endl;
                 return;
@@ -54,7 +54,7 @@ void handle_client(tcp::socket socket) {
             aggregate_model(local_update);
 
             boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
-            std::cout<<"Send and Recieved"<<std::endl;
+            //std::cout<<"Send and Recieved"<<std::endl;
         }
 
     } catch (const std::exception& e) {
@@ -66,7 +66,7 @@ int main() {
     try {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
-        std::cout << "[INFO] Server started. Waiting for clients..." << std::endl;
+        //std::cout << "[INFO] Server started. Waiting for clients..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);

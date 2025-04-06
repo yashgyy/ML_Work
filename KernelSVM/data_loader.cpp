@@ -15,7 +15,7 @@ void load_data(const std::string& filename,
         std::cerr << "[ERROR] Could not open file: " << filename << std::endl;
         return;
     }
-    //std::cout<<filename;
+    ////std::cout<<filename;
     // Read the header line and skip it
     std::getline(file, line);
 
@@ -44,7 +44,7 @@ void load_data(const std::string& filename,
     }
 
     file.close();
-    std::cout << "[INFO] Loaded " << features.size() 
+    /*std::cout << "[INFO] Loaded " << features.size() 
               << " samples with " << features[0].size() 
-              << " features each from " << filename << "." << std::endl;
+              << " features each from " << filename << "." << std::endl;*/
 }
