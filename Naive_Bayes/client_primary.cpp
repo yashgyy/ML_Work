@@ -2,9 +2,9 @@
 #include <vector>
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
-//include "data_loader.cpp"
+#include "data_loader.cpp"
 //include "data_loader_susy.cpp"
-#include "data_loader_higgs.cpp"
+//#include "data_loader_higgs.cpp"
 // g++ client_updated.cpp -o client  -I /usr/include/eigen3
 
 using namespace Eigen;
@@ -137,9 +137,9 @@ void send_batches_and_receive_updates(tcp::socket& socket, const MatrixXd& local
 
         std::vector<std::vector<float>> test_features;
         std::vector<int> test_labels;
-        //load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
+        load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
         //load_data("../Datasets/SUSY.csv", test_features, test_labels);
-        load_data("../Datasets/HIGGS.csv", test_features, test_labels);
+        //load_data("../Datasets/HIGGS.csv", test_features, test_labels);
 
         MatrixXd test_data(test_features.size(), test_features[0].size());
         for (size_t i = 0; i < test_features.size(); ++i) {
@@ -159,9 +159,9 @@ int main() {
     try {
         std::vector<std::vector<float>> features;
         std::vector<int> labels;
-        //load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+        load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
         //load_data("../Datasets/SUSY.csv", features, labels);
-        load_data("../Datasets/HIGGS.csv", features, labels);
+        //load_data("../Datasets/HIGGS.csv", features, labels);
         
         MatrixXd local_data(features.size(), features[0].size());
         VectorXd local_labels(labels.size());
@@ -176,7 +176,7 @@ int main() {
 
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
+        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
 
         send_batches_and_receive_updates(socket, local_data, local_labels, 1, num_classes);
 

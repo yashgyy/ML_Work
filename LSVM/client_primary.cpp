@@ -5,9 +5,9 @@
 #include <random>
 #include <boost/asio.hpp>
 #include <Eigen/Dense>
-//#include "data_loader.cpp"
+#include "data_loader.cpp"
 //#include "data_loader_susy.cpp"
-#include "data_loader_higgs.cpp"
+//#include "data_loader_higgs.cpp"
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
@@ -91,9 +91,9 @@ int main() {
 
         std::vector<std::vector<float>> features;
         std::vector<int> labels;
-        //load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
+        load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
         //load_data("../Datasets/SUSY.csv", features, labels);
-        load_data("../Datasets/HIGGS.csv", features, labels);
+        //load_data("../Datasets/HIGGS.csv", features, labels);
 
 
         MatrixXd data(features.size(), features[0].size());
@@ -109,7 +109,7 @@ int main() {
         
   
 
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
+        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
 
         train_and_send_batches(socket, data, label_vec, weights);
         socket.close();

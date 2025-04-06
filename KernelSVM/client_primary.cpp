@@ -101,7 +101,7 @@ int main() {
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
         std::cout << "[DEBUG] Connecting to server..." << std::endl;
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
+        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
         std::cout << "[DEBUG] Connected to server." << std::endl;
 
         // int vector_size = local_weights.size();

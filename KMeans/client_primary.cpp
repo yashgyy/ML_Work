@@ -87,7 +87,7 @@ int main() {
     try {
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
+        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
         
         std::vector<float> features;
         std::vector<int> labels;
