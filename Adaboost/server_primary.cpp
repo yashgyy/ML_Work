@@ -52,7 +52,7 @@ double predict_adaboost(const RowVectorXd& sample, const std::vector<WeakLearner
 
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[INFO] Client connected for multiple epochs.\n";
+        //std::cout << "[INFO] Client connected for multiple epochs.\n";
 
         while (true) {
             int num_learners = 0, vec_size = 0;
@@ -72,7 +72,7 @@ void handle_client(tcp::socket socket) {
                 aggregated_learners.insert(aggregated_learners.end(), learners.begin(), learners.end());
             }
 
-            std::cout << "[INFO] Received " << num_learners << " learners from client (epoch loop).\n";
+            //std::cout << "[INFO] Received " << num_learners << " learners from client (epoch loop).\n";
 
             // Aggregate and return top N learners
             std::vector<WeakLearner> top_learners;
@@ -93,7 +93,7 @@ void handle_client(tcp::socket socket) {
             boost::asio::write(socket, boost::asio::buffer(global_serialized.data(), global_vec_size * sizeof(double)));
         }
 
-        std::cout << "[INFO] Client disconnected.\n";
+        //std::cout << "[INFO] Client disconnected.\n";
 
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in handle_client: " << e.what() << std::endl;
@@ -108,10 +108,10 @@ void evaluate_on_dummy_data() {
                      3, 4,
                      4, 3;
 
-        std::cout << "\n[INFO] Predictions on dummy test data:\n";
+        //std::cout << "\n[INFO] Predictions on dummy test data:\n";
         for (int i = 0; i < test_data.rows(); ++i) {
             double pred = predict_adaboost(test_data.row(i), aggregated_learners);
-            std::cout << "Sample " << i << ": " << pred << std::endl;
+            //std::cout << "Sample " << i << ": " << pred << std::endl;
         }
     }
 }
@@ -120,7 +120,7 @@ int main() {
     try {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
-        std::cout << "[INFO] Server is running on port 12344...\n";
+        //std::cout << "[INFO] Server is running on port 12344...\n";
 
         while (true) {
             tcp::socket socket(io_context);

@@ -72,16 +72,16 @@ int predict(const VectorXd& sample, const std::vector<VectorXd>& means, const st
 }
 
 void predict_samples(const MatrixXd& test_data, const std::vector<VectorXd>& means, const std::vector<VectorXd>& variances, const std::vector<double>& priors, int num_classes) {
-    std::cout << "[DEBUG] Starting predictions for test data..." << std::endl;
+   // std::cout << "[DEBUG] Starting predictions for test data..." << std::endl;
 
     for (int i = 0; i < test_data.rows(); ++i) {
         VectorXd sample = test_data.row(i);
         int predicted_class = predict(sample, means, variances, priors, num_classes);
 
-        std::cout << "Sample " << i + 1 << " predicted class: " << predicted_class << std::endl;
+     //   std::cout << "Sample " << i + 1 << " predicted class: " << predicted_class << std::endl;
     }
 
-    std::cout << "[DEBUG] Predictions completed." << std::endl;
+    // std::cout << "[DEBUG] Predictions completed." << std::endl;
 }
 
 void send_batches_and_receive_updates(tcp::socket& socket, const MatrixXd& local_data, const VectorXd& local_labels, int num_epochs, int num_classes) {
@@ -123,7 +123,7 @@ void send_batches_and_receive_updates(tcp::socket& socket, const MatrixXd& local
                     boost::asio::read(socket, boost::asio::buffer(&updated_priors[c], sizeof(double)));
                 }
 
-                std::cout << "[DEBUG] Updated statistics received from server." << std::endl;
+              //  std::cout << "[DEBUG] Updated statistics received from server." << std::endl;
                 
                 // for (int c = 0; c < num_classes; ++c) {
                 //     std::cout << "Class " << c << " - Means: " << updated_means[c].transpose()

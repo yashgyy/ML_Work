@@ -38,7 +38,7 @@ std::vector<double> serialize_trees(const std::vector<DecisionTree>& trees) {
 
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[INFO] New client connected.\n";
+        //std::cout << "[INFO] New client connected.\n";
 
         while (true) {
             int num_trees = 0, vec_size = 0;
@@ -67,7 +67,7 @@ void handle_client(tcp::socket socket) {
             boost::asio::write(socket, boost::asio::buffer(global_serialized.data(), global_vec_size * sizeof(double)));
         }
 
-        std::cout << "[INFO] Client disconnected.\n";
+        //std::cout << "[INFO] Client disconnected.\n";
 
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in server handler: " << e.what() << std::endl;
@@ -78,7 +78,7 @@ int main() {
     try {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
-        std::cout << "[INFO] Federated RF Server running on port 12344...\n";
+        //std::cout << "[INFO] Federated RF Server running on port 12344...\n";
 
         while (true) {
             tcp::socket socket(io_context);

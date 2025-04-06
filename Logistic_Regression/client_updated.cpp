@@ -22,14 +22,14 @@ double sigmoid(double z) {
 
 void send_in_batches(tcp::socket& socket, const VectorXd& data) {
     int total_size = data.size();
-    std::cout << "[INFO] Sending data in batches of size: " << NETWORK_BATCH_SIZE << std::endl;
+    //std::cout << "[INFO] Sending data in batches of size: " << NETWORK_BATCH_SIZE << std::endl;
 
     int sent = 0;
     while (sent < total_size) {
         int batch_size = std::min(NETWORK_BATCH_SIZE, total_size - sent);
         boost::asio::write(socket, boost::asio::buffer(data.data() + sent, batch_size * sizeof(double)));
         sent += batch_size;
-        std::cout << "[DEBUG] Sent batch of size: " << batch_size << std::endl;
+      //  std::cout << "[DEBUG] Sent batch of size: " << batch_size << std::endl;
     }
 }
 
@@ -41,7 +41,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels, VectorXd&
     VectorXd gradient = VectorXd::Zero(n_features);
     int batch_count = 0;
 
-    std::cout << "[DEBUG] Resuming training from sample index: " << last_sample << std::endl;
+    //std::cout << "[DEBUG] Resuming training from sample index: " << last_sample << std::endl;
 
     for (int i = last_sample; i < n_samples; ++i) {
         VectorXd xi = data.row(i);
@@ -51,7 +51,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels, VectorXd&
 
         if (batch_count == TRAIN_BATCH_SIZE || i == n_samples - 1) {
             weights -= learning_rate * gradient / batch_count;
-            std::cout << "[DEBUG] Sending weights after batch." << std::endl;
+      //      std::cout << "[DEBUG] Sending weights after batch." << std::endl;
             send_in_batches(socket, weights);
 
             gradient.setZero();
@@ -90,17 +90,17 @@ int main() {
             local_labels(i) = labels[i];
         }
 
-        std::cout << "[INFO] Data loaded and converted." << std::endl;
+        //std::cout << "[INFO] Data loaded and converted." << std::endl;
 
         // Send vector size to the server
         int vector_size = local_data.cols();
-        std::cout << "[DEBUG] Sending vector size: " << vector_size << std::endl;
+        //std::cout << "[DEBUG] Sending vector size: " << vector_size << std::endl;
         boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
 
         VectorXd weights = VectorXd::Zero(local_data.cols());
 
         for (int epoch = 0; epoch < MAX_EPOCHS; ++epoch) {
-            std::cout << "[INFO] Starting epoch " << epoch + 1 << std::endl;
+          //  std::cout << "[INFO] Starting epoch " << epoch + 1 << std::endl;
             while (!train_incrementally(local_data, local_labels, weights, LEARNING_RATE, socket)) {
                 // Continue training in incremental batches
             }

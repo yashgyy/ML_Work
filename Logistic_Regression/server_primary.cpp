@@ -34,8 +34,8 @@ void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
     int total_data_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
     global_weights -= (total_gradients / total_data_points); // Apply gradient descent step
 
-    std::cout << "[DEBUG] Updated global weights (first 10 values): "
-              << global_weights.head(10).transpose() << std::endl;
+    //std::cout << "[DEBUG] Updated global weights (first 10 values): "
+      //        << global_weights.head(10).transpose() << std::endl;
 
     // **Reset total_gradients after applying update**
     total_gradients.setZero();
@@ -44,7 +44,7 @@ void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
 // **Handles communication with a client**
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[DEBUG] New client connected." << std::endl;
+        //std::cout << "[DEBUG] New client connected." << std::endl;
 
         while (true) {
             int batch_size = 0, vector_size = 0;
@@ -58,7 +58,7 @@ void handle_client(tcp::socket socket) {
                 return;
             }
 
-            std::cout << "[DEBUG] Receiving batch of size: " << batch_size << ", Vector size: " << vector_size << std::endl;
+            //std::cout << "[DEBUG] Receiving batch of size: " << batch_size << ", Vector size: " << vector_size << std::endl;
 
             VectorXd batch_gradient = VectorXd::Zero(vector_size);
             int received = 0;
@@ -75,7 +75,7 @@ void handle_client(tcp::socket socket) {
             // **Send updated global model to client after every batch**
             boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
 
-            std::cout << "[DEBUG] Sent updated global model to client after batch." << std::endl;
+          //  std::cout << "[DEBUG] Sent updated global model to client after batch." << std::endl;
         }
 
     } catch (const std::exception& e) {
@@ -89,12 +89,12 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
 
-        std::cout << "[DEBUG] Server started..." << std::endl;
+        //std::cout << "[DEBUG] Server started..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            std::cout << "[DEBUG] Client connected." << std::endl;
+           // std::cout << "[DEBUG] Client connected." << std::endl;
 
             std::thread(handle_client, std::move(socket)).detach();
         }

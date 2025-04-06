@@ -31,7 +31,7 @@ void send_in_batches(tcp::socket& socket, const VectorXd& data) {
 bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
                          VectorXd& weights, double learning_rate,
                          double gamma, tcp::socket& socket) {
-    //std::cout<<"Inside Function 1"<<std::endl;
+    ////std::cout<<"Inside Function 1"<<std::endl;
     int n_samples = data.rows();
     static int last_sample = 0;
     VectorXd gradient = VectorXd::Zero(weights.size());
@@ -41,7 +41,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
 
     while (processed_samples < Iteration) {
         if (current_sample >= n_samples) return true; // All samples processed
-        std::cout<<current_sample<<std::endl;
+        //std::cout<<current_sample<<std::endl;
 
         VectorXd xi = data.row(current_sample);
         double yi = labels(current_sample);
@@ -66,7 +66,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
             boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
             send_in_batches(socket, weights);
             boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
-            std::cout<<"Send and Recieved"<<std::endl;
+            //std::cout<<"Send and Recieved"<<std::endl;
         }
     }
 
@@ -100,9 +100,9 @@ int main() {
 
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        std::cout << "[DEBUG] Connecting to server..." << std::endl;
+        //std::cout << "[DEBUG] Connecting to server..." << std::endl;
         socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
-        std::cout << "[DEBUG] Connected to server." << std::endl;
+        //std::cout << "[DEBUG] Connected to server." << std::endl;
 
         // int vector_size = local_weights.size();
         // boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));

@@ -10,7 +10,7 @@ void load_data(const std::string& filename,
     std::vector<int>& labels) {
 std::ifstream file(filename);
 std::string line;
-std::cout<<"File Opened"<<std::endl;
+//std::cout<<"File Opened"<<std::endl;
 
 if (!file.is_open()) {
 std::cerr << "[ERROR] Could not open file: " << filename << std::endl;
@@ -44,7 +44,7 @@ row_count++;
 }
 
 file.close();
-std::cout << "[INFO] Loaded " << features.size() 
+/*std::cout << "[INFO] Loaded " << features.size() 
    << " samples with " << features[0].size() 
-   << " features each from " << filename << "." << std::endl;
+   << " features each from " << filename << "." << std::endl;*/
 }

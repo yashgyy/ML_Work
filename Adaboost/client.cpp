@@ -86,7 +86,7 @@ int main() {
         std::vector<std::vector<float>> features;
         std::vector<int> labels;
         load_data("../Datasets/santander-customer-transaction-prediction.csv", features, labels);
-        std::cout<<"Data Read Succesfully"<<std::endl;
+        //std::cout<<"Data Read Succesfully"<<std::endl;
         MatrixXd data(features.size(), features[0].size());
         VectorXd label_vec(labels.size());
         for (size_t i = 0; i < features.size(); ++i) {
@@ -97,7 +97,7 @@ int main() {
         }
 
         for (int epoch = 0; epoch < NUM_EPOCHS; ++epoch) {
-            std::cout << "[INFO] Epoch " << epoch + 1 << " begins...\n";
+            //std::cout << "[INFO] Epoch " << epoch + 1 << " begins...\n";
             std::vector<WeakLearner> learners = train_adaboost(data, label_vec, LEARNERS_PER_EPOCH);
             std::vector<double> serialized = serialize_learners(learners);
 
@@ -108,7 +108,7 @@ int main() {
             boost::asio::write(socket, boost::asio::buffer(&vec_size, sizeof(int)));
             boost::asio::write(socket, boost::asio::buffer(serialized.data(), vec_size * sizeof(double)));
 
-            std::cout << "[INFO] Sent " << num_learners << " learners to server in epoch " << epoch + 1 << ".\n";
+            //std::cout << "[INFO] Sent " << num_learners << " learners to server in epoch " << epoch + 1 << ".\n";
 
             // Receive global model from server
             int global_vec_size = 0;
@@ -117,7 +117,7 @@ int main() {
             boost::asio::read(socket, boost::asio::buffer(global_serialized.data(), global_vec_size * sizeof(double)));
 
             std::vector<WeakLearner> global_model = deserialize_learners(global_serialized);
-            std::cout << "[INFO] Received global model with " << global_model.size() << " weak learners.\n";
+            //std::cout << "[INFO] Received global model with " << global_model.size() << " weak learners.\n";
         }
 
         socket.close();

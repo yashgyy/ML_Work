@@ -34,13 +34,13 @@ void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
     int total_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
     global_weights -= (total_gradients / total_points);
 
-    std::cout << "[DEBUG] Updated global weights: " << global_weights.transpose() << std::endl;
+   // std::cout << "[DEBUG] Updated global weights: " << global_weights.transpose() << std::endl;
     total_gradients.setZero();
 }
 
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[DEBUG] Client connected." << std::endl;
+        //std::cout << "[DEBUG] Client connected." << std::endl;
 
         while (true) {
             int batch_size = 0, vector_size = 0;
@@ -63,7 +63,7 @@ void handle_client(tcp::socket socket) {
             apply_gradient_update(batch_gradient, batch_size);
 
             boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
-            std::cout << "[DEBUG] Sent global model to client." << std::endl;
+         //   std::cout << "[DEBUG] Sent global model to client." << std::endl;
         }
 
     } catch (const std::exception& e) {
@@ -76,7 +76,7 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
 
-        std::cout << "[INFO] Server started. Waiting for clients...\n";
+       // std::cout << "[INFO] Server started. Waiting for clients...\n";
 
         while (true) {
             tcp::socket socket(io_context);

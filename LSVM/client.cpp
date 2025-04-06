@@ -49,7 +49,7 @@ void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& label
     int n_features = data.cols();
 
     for (int epoch = 0; epoch < MAX_EPOCHS; ++epoch) {
-        std::cout << "[INFO] Starting Epoch " << epoch + 1 << std::endl;
+        //std::cout << "[INFO] Starting Epoch " << epoch + 1 << std::endl;
 
         std::vector<int> indices(n_samples);
         std::iota(indices.begin(), indices.end(), 0);
@@ -79,7 +79,7 @@ void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& label
             // Receive updated global model
             boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
 
-            std::cout << "[DEBUG] Updated weights received: " << weights.transpose() << std::endl;
+           // std::cout << "[DEBUG] Updated weights received: " << weights.transpose() << std::endl;
         }
     }
 }

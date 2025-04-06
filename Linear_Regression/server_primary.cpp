@@ -34,15 +34,15 @@ void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
     int total_data_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
       // Apply learning rate here
     global_weights -= LEARNING_RATE * total_gradients;
-    std::cout << "[DEBUG] Updated global weights (first 10 values): "
-              << global_weights.head(10).transpose() << std::endl;
+    //std::cout << "[DEBUG] Updated global weights (first 10 values): "
+      //        << global_weights.head(10).transpose() << std::endl;
 
     total_gradients.setZero();
 }
 
 void handle_client(tcp::socket socket) {
     try {
-        std::cout << "[DEBUG] New client connected." << std::endl;
+        //std::cout << "[DEBUG] New client connected." << std::endl;
 
         while (true) {
             int batch_size = 0, vector_size = 0;
@@ -68,7 +68,7 @@ void handle_client(tcp::socket socket) {
 
             boost::asio::write(socket, boost::asio::buffer(global_weights.data(), global_weights.size() * sizeof(double)));
 
-            std::cout << "[DEBUG] Sent updated global model to client after batch." << std::endl;
+          //  std::cout << "[DEBUG] Sent updated global model to client after batch." << std::endl;
         }
 
     } catch (const std::exception& e) {
@@ -81,12 +81,12 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
 
-        std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
+        //std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            std::cout << "[DEBUG] Client connected." << std::endl;
+          //  std::cout << "[DEBUG] Client connected." << std::endl;
 
             std::thread(handle_client, std::move(socket)).detach();
         }

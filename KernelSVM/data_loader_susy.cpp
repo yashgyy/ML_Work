@@ -44,7 +44,7 @@ void load_data(const std::string& filename,
     }
 
     file.close();
-    std::cout << "[INFO] Loaded " << features.size() 
+    /*std::cout << "[INFO] Loaded " << features.size() 
               << " samples with " << features[0].size() 
-              << " features each from " << filename << "." << std::endl;
+              << " features each from " << filename << "." << std::endl;*/
 }

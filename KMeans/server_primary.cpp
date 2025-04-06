@@ -45,7 +45,7 @@ void handle_client(tcp::socket socket) {
             MatrixXd avg_centroids = global_centroids / clients_count;
             send_matrix(socket, avg_centroids);
 
-            std::cout << "[DEBUG] Round " << round + 1 << ": Updated global centroids:\n" << avg_centroids << std::endl;
+            //std::cout << "[DEBUG] Round " << round + 1 << ": Updated global centroids:\n" << avg_centroids << std::endl;
         }
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in handle_client: " << e.what() << std::endl;
@@ -57,7 +57,7 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
 
-        std::cout << "[INFO] Server started. Waiting for clients...\n";
+        //std::cout << "[INFO] Server started. Waiting for clients...\n";
 
         while (true) {
             tcp::socket socket(io_context);
