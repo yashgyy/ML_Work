@@ -87,9 +87,9 @@ void handle_client(tcp::socket socket) {
 int main() {
     try {
         boost::asio::io_context io_context;
-        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
 
-        std::cout << "[DEBUG] Server started. Waiting for clients on port 8080..." << std::endl;
+        std::cout << "[DEBUG] Server started..." << std::endl;
 
         while (true) {
             tcp::socket socket(io_context);

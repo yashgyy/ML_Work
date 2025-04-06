@@ -119,8 +119,8 @@ void evaluate_on_dummy_data() {
 int main() {
     try {
         boost::asio::io_context io_context;
-        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8080));
-        std::cout << "[INFO] Server is running on port 8080...\n";
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
+        std::cout << "[INFO] Server is running on port 12344...\n";
 
         while (true) {
             tcp::socket socket(io_context);
