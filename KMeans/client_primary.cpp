@@ -11,9 +11,9 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int K = 2; // number of clusters
-const int MAX_ITERS = 100;
-const int NETWORK_BATCH_SIZE = 100;
+const int K = 3; // number of clusters
+const int MAX_ITERS = 50;
+const int NETWORK_BATCH_SIZE = 512;
 
 // Function to simulate local data
 MatrixXd load_local_data() {

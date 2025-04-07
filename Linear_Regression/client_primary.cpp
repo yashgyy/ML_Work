@@ -11,9 +11,9 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int MAX_EPOCHS = 1;
-const int TRAIN_BATCH_SIZE = 100;
-const int NETWORK_BATCH_SIZE = 100;
+const int MAX_EPOCHS = 50;
+const int TRAIN_BATCH_SIZE = 512;
+const int NETWORK_BATCH_SIZE = 512;
 
 // **Mean Squared Error (MSE) Loss Function**
 double compute_mse(const MatrixXd& data, const VectorXd& labels, const VectorXd& weights) {

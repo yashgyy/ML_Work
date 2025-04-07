@@ -10,7 +10,8 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int COMPUTE_BATCH_SIZE = 100;
+const int COMPUTE_BATCH_SIZE = 512;
+const int NUM_EPOCHS = 50;
 
 struct NaiveBayesBatchStats {
     std::vector<VectorXd> means;
@@ -178,7 +179,7 @@ int main() {
         tcp::socket socket(io_context);
         socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
 
-        send_batches_and_receive_updates(socket, local_data, local_labels, 1, num_classes);
+        send_batches_and_receive_updates(socket, local_data, local_labels, NUM_EPOCHS, num_classes);
 
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in client: " << e.what() << std::endl;

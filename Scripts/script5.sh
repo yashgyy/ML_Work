@@ -36,8 +36,8 @@ kill_port_12344
 # AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
 # APP="../Linear_Regression/client"  # Replace with your application name/path
 # $AMD1 -m ipc,fp,l1,l2 -d 240 -o ../Linear_Regression/Client/perfomance.csv -- "../Linear_Regression/client" &
-# # Define the application you want to run
-# # Loop to run the application 10 times
+# # # Define the application you want to run
+# # # Loop to run the application 10 times
 
 # #$APP
 # for i in {1..25}
@@ -76,19 +76,19 @@ kill_port_12344
 # done
 # echo "STARTED"
 
-# AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
-# APP="../KMeans/client"  # Replace with your application name/path
-# $AMD1 -m ipc,fp,l1,l2 -d 120 -o ../KMeans/Client/perfomance.csv -- "../KMeans/client" &
-# # Define the application you want to run
-# # Loop to run the application 10 times
+AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
+APP="../KMeans/client"  # Replace with your application name/path
+$AMD1 -m ipc,fp,l1,l2 -d 120 -o ../KMeans/Client/perfomance.csv -- "../KMeans/client" &
+# Define the application you want to run
+# Loop to run the application 10 times
 
-# #$APP
-# for i in {1..25}
-# do  
-#     #echo "Running iteration $i..."
-#     $APP & # Execute the application
-# done
-# echo "STARTED"
+#$APP
+for i in {1..25}
+do  
+    #echo "Running iteration $i..."
+    $APP & # Execute the application
+done
+echo "STARTED"
 
 # AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
 # APP="../Adaboost/client"  # Replace with your application name/path
@@ -104,16 +104,16 @@ kill_port_12344
 # done
 # echo "STARTED"
 
-AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
-APP="../RF/client"  # Replace with your application name/path
-$AMD1 -m ipc,fp,l1,l2 -d 240 -o ../RF/Client/perfomance.csv -- "../RF/client" &
-# Define the application you want to run
-# Loop to run the application 10 times
+# AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
+# APP="../RF/client"  # Replace with your application name/path
+# $AMD1 -m ipc,fp,l1,l2 -d 300 -o ../RF/Client/perfomance.csv -- "../RF/client" &
+# # Define the application you want to run
+# # Loop to run the application 10 times
 
-#$APP
-for i in {1..25}
-do  
-    #echo "Running iteration $i..."
-    $APP & # Execute the application
-done
-echo "STARTED"
+# #$APP
+# for i in {1..25}
+# do  
+#     #echo "Running iteration $i..."
+#     $APP & # Execute the application
+# done
+# echo "STARTED"

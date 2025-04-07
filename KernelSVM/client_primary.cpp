@@ -11,10 +11,10 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int MAX_EPOCHS = 3;
+const int MAX_EPOCHS = 50;
 const double EPSILON = 1e-5;
-const int TRAIN_BATCH_SIZE = 30;
-const int NETWORK_BATCH_SIZE = 30;
+const int TRAIN_BATCH_SIZE = 512;
+const int NETWORK_BATCH_SIZE = 512;
 
 double rbf_kernel(const VectorXd& x1, const VectorXd& x2, double gamma = 0.1) {
     return std::exp(-gamma * (x1 - x2).squaredNorm());
@@ -39,7 +39,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
     int processed_samples = 0;
     int Iteration = n_samples / TRAIN_BATCH_SIZE;
 
-    while (processed_samples < Iteration) {
+    while (processed_samples < n_samples) {
         if (current_sample >= n_samples) return true; // All samples processed
         //std::cout<<current_sample<<std::endl;
 

@@ -9,8 +9,8 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int NUM_EPOCHS = 5;
-const int LEARNERS_PER_EPOCH = 2;
+const int NUM_EPOCHS = 50;
+const int LEARNERS_PER_EPOCH = 5;
 
 struct WeakLearner {
     int feature_index;

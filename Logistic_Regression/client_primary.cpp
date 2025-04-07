@@ -13,9 +13,9 @@ using namespace Eigen;
 using boost::asio::ip::tcp;
 
 const double LEARNING_RATE = 0.01;
-const int MAX_EPOCHS = 1;
-const int TRAIN_BATCH_SIZE = 100;
-const int NETWORK_BATCH_SIZE = 100;
+const int MAX_EPOCHS = 50;
+const int TRAIN_BATCH_SIZE = 512;
+const int NETWORK_BATCH_SIZE = 512;
 
 // Sigmoid function
 double sigmoid(double z) {
@@ -118,7 +118,7 @@ void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& label
             }
         }
 
-        predict_samples(test_data, weights);
+      //  predict_samples(test_data, weights);
     
 }
 
