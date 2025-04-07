@@ -6,6 +6,9 @@
 #include <mutex>
 #include <Eigen/Dense>
 #include <algorithm>
+#include <pthread.h>
+#include <sched.h>
+#include <unistd.h>
 
 using namespace Eigen;
 using boost::asio::ip::tcp;
@@ -100,6 +103,23 @@ void handle_client(tcp::socket socket) {
     }
 }
 
+void handle_client_pinned(tcp::socket socket, int core_id) {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(core_id, &cpuset);
+
+    pthread_t current_thread = pthread_self();
+    int rc = pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpuset);
+    if (rc != 0) {
+        std::cerr << "[ERROR] Failed to set thread affinity to core " << core_id << ": " << strerror(errno) << std::endl;
+    } else {
+       // std::cout << "[INFO] Thread pinned to core " << core_id << std::endl;
+    }
+
+    handle_client(std::move(socket));
+}
+
+
 void evaluate_on_dummy_data() {
     if (aggregated_learners.size() >= 5) {
         MatrixXd test_data(4, 2);
@@ -121,12 +141,19 @@ int main() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12344));
         //std::cout << "[INFO] Server is running on port 12344...\n";
-
+        int core_id = -1;  // You can increment this in a round-robin fashion
         while (true) {
+           
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            std::thread(handle_client, std::move(socket)).detach();
+            core_id = (core_id + 1) % 26;  // round-robin core assignment
+            //std::thread(handle_client, std::move(socket)).detach();
             //evaluate_on_dummy_data();
+            std::thread([core_id](tcp::socket s) {
+                handle_client_pinned(std::move(s), core_id);
+            }, std::move(socket)).detach();
+        
+            
         }
 
     } catch (const std::exception& e) {
