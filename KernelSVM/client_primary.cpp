@@ -13,8 +13,8 @@ using boost::asio::ip::tcp;
 
 const int MAX_EPOCHS = 50;
 const double EPSILON = 1e-5;
-const int TRAIN_BATCH_SIZE = 512;
-const int NETWORK_BATCH_SIZE = 512;
+const int TRAIN_BATCH_SIZE = 30;
+const int NETWORK_BATCH_SIZE = 30;
 
 double rbf_kernel(const VectorXd& x1, const VectorXd& x2, double gamma = 0.1) {
     return std::exp(-gamma * (x1 - x2).squaredNorm());
@@ -31,7 +31,7 @@ void send_in_batches(tcp::socket& socket, const VectorXd& data) {
 bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
                          VectorXd& weights, double learning_rate,
                          double gamma, tcp::socket& socket) {
-    ////std::cout<<"Inside Function 1"<<std::endl;
+    //std::cout<<"Inside Function 1"<<std::endl;
     int n_samples = data.rows();
     static int last_sample = 0;
     VectorXd gradient = VectorXd::Zero(weights.size());
@@ -41,6 +41,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
 
     while (processed_samples < n_samples) {
         if (current_sample >= n_samples) return true; // All samples processed
+        
         //std::cout<<current_sample<<std::endl;
 
         VectorXd xi = data.row(current_sample);
@@ -66,7 +67,7 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
             boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
             send_in_batches(socket, weights);
             boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
-            //std::cout<<"Send and Recieved"<<std::endl;
+            ////std::cout<<"Send and Recieved"<<std::endl;
         }
     }
 
@@ -89,6 +90,7 @@ int main() {
                 local_data(i, j) = features[i][j];
             local_labels(i) = labels[i];
         }
+        //std::cout << "[DEBUG] Data loaded successfully." << std::endl;
 
         std::random_device rd;
         std::mt19937 gen(rd());

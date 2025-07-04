@@ -20,7 +20,7 @@ return;
 std::getline(file, line); // Skip header
 
 int row_count = 0;
-const int MAX_ROWS = 1000;
+const int MAX_ROWS = 512;
 
 while (std::getline(file, line) && row_count < MAX_ROWS) {
 std::stringstream ss(line);
