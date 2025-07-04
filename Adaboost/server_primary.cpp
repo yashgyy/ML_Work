@@ -113,7 +113,7 @@ void handle_client_pinned(tcp::socket socket, int core_id) {
     if (rc != 0) {
         std::cerr << "[ERROR] Failed to set thread affinity to core " << core_id << ": " << strerror(errno) << std::endl;
     } else {
-       // std::cout << "[INFO] Thread pinned to core " << core_id << std::endl;
+       // //std::cout << "[INFO] Thread pinned to core " << core_id << std::endl;
     }
 
     handle_client(std::move(socket));
@@ -146,7 +146,7 @@ int main() {
            
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            core_id = (core_id + 1) % 26;  // round-robin core assignment
+            core_id = (core_id + 1) % 30;  // round-robin core assignment
             //std::thread(handle_client, std::move(socket)).detach();
             //evaluate_on_dummy_data();
             std::thread([core_id](tcp::socket s) {

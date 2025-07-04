@@ -52,7 +52,7 @@ void handle_client(tcp::socket socket) {
             MatrixXd avg_centroids = global_centroids / clients_count;
             send_matrix(socket, avg_centroids);
 
-            //std::cout << "[DEBUG] Round " << round + 1 << ": Updated global centroids:\n" << avg_centroids << std::endl;
+           // std::cout << "[DEBUG] Round " << round + 1 << ": Updated global centroids:\n" << avg_centroids << std::endl;
         }
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception in handle_client: " << e.what() << std::endl;
@@ -87,7 +87,7 @@ int main() {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
 
-            core_id = (core_id + 1) % 26; // round-robin core assignment
+            core_id = (core_id + 1) % 30; // round-robin core assignment
            // std::thread(handle_client, std::move(socket)).detach();
         std::thread([core_id](tcp::socket s) {
             handle_client_pinned(std::move(s), core_id);
