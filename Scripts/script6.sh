@@ -23,14 +23,14 @@ kill_port_12344() {
 # AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
 # APP="../Linear_Regression/server"  # Replace with your application name/path
 # $AMD1 -m memory,l3 -d 300 -o ../Linear_Regression/Server/perfomance.csv -- "../Linear_Regression/server" 
-# # echo "Started"
-# # # Define the application you want to run
-# # Loop to run the application 10 times
+# echo "Started"
+# # Define the application you want to run
+# Loop to run the application 10 times
 
-# kill_port_12344
-# AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
-# APP="../KernelSVM/server"  # Replace with your application name/path
-# $AMD1 -m memory,l3 -d 300 -o ../KernelSVM/Server/perfomance.csv -- "../KernelSVM/server" 
+kill_port_12344
+AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
+APP="../KernelSVM/server"  # Replace with your application name/path
+$AMD1 -m memory,l3 -d 300 -o ../KernelSVM/Server/perfomance.csv -- "../KernelSVM/server" 
 # # echo "Started"
 # # Define the application you want to run
 # Loop to run the application 10 times
@@ -43,10 +43,10 @@ kill_port_12344() {
 # # # Define the application you want to run
 # # # Loop to run the application 10 times
 
-kill_port_12344
-AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
-APP="../KMeans/server"  # Replace with your application name/path
-$AMD1 -m memory,l3 -d 300 -o ../KMeans/Server/perfomance.csv -- "../KMeans/server" 
+# kill_port_12344
+# AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
+# APP="../KMeans/server"  # Replace with your application name/path
+# $AMD1 -m memory,l3 -d 300 -o ../KMeans/Server/perfomance.csv -- "../KMeans/server" 
 # # #echo "Started"
 # # # Define the application you want to run
 # # # Loop to run the application 10 times
