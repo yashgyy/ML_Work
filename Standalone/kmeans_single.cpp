@@ -6,7 +6,7 @@
 #include <numeric>
 #include <Eigen/Dense>
 #include <chrono>
-
+// g++ client_updated.cpp -o client  -I /usr/include/eigen3
 using namespace Eigen;
 
 class KMeans {

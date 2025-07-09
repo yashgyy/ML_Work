@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <random>
 #include <Eigen/Dense>
 
 using namespace Eigen;
