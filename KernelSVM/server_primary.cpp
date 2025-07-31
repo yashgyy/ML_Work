@@ -19,7 +19,7 @@ std::vector<int> client_data_sizes;
 int client_count = 0;
 
 const int BATCH_SIZE = 30;
-const double LEARNING_RATE = 0.5;
+const double LEARNING_RATE = 0.01;
 
 void apply_kernel_gradient_update(const VectorXd& gradient_vector, int batch_size) {
     std::lock_guard<std::mutex> lock(model_mutex);
@@ -29,14 +29,15 @@ void apply_kernel_gradient_update(const VectorXd& gradient_vector, int batch_siz
         total_gradients = VectorXd::Zero(gradient_vector.size());
     }
 
-    total_gradients += gradient_vector * batch_size;
-    client_data_sizes.push_back(batch_size);
-    client_count++;
+    // total_gradients += gradient_vector * batch_size;
+    // client_data_sizes.push_back(batch_size);
+    // client_count++;
 
-    int total_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
-    global_weights -= LEARNING_RATE * (total_gradients / total_points);
+    // int total_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
+    // global_weights -= LEARNING_RATE * (total_gradients / total_points);
 
-    total_gradients.setZero();
+    // total_gradients.setZero();
+    global_weights -= LEARNING_RATE * gradient_vector;
 }
 
 void handle_client(tcp::socket socket) {

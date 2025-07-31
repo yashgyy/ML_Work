@@ -18,7 +18,7 @@ VectorXd global_weights;  // Store the global model
 VectorXd total_gradients; // Accumulate gradients for averaging
 int client_count = 0;     // Track the number of connected clients
 std::vector<int> client_data_sizes; // Store data sizes per client
-
+const double LEARNING_RATE = 0.005;  // Learning rate now applied on the server
 const int BATCH_SIZE = 512;  // Batch size for receiving updates
 
 // **Apply Gradient Updates to Global Model**
@@ -36,7 +36,7 @@ void apply_gradient_update(const VectorXd& batch_gradient, int batch_size) {
 
     // Compute weighted average update
     int total_data_points = std::accumulate(client_data_sizes.begin(), client_data_sizes.end(), 0);
-    global_weights -= (total_gradients / total_data_points); // Apply gradient descent step
+    global_weights -= LEARNING_RATE * total_gradients;
 
     //std::cout << "[DEBUG] Updated global weights (first 10 values): "
       //        << global_weights.head(10).transpose() << std::endl;

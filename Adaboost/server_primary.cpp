@@ -146,7 +146,7 @@ int main() {
            
             tcp::socket socket(io_context);
             acceptor.accept(socket);
-            core_id = (core_id + 1) % 30;  // round-robin core assignment
+            core_id = (core_id + 1) % 26;  // round-robin core assignment
             //std::thread(handle_client, std::move(socket)).detach();
             //evaluate_on_dummy_data();
             std::thread([core_id](tcp::socket s) {
