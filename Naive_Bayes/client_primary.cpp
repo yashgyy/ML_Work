@@ -11,7 +11,7 @@ using namespace Eigen;
 using boost::asio::ip::tcp;
 
 const int COMPUTE_BATCH_SIZE = 512;
-const int NUM_EPOCHS = 50;
+const int NUM_EPOCHS = 100;
 
 struct NaiveBayesBatchStats {
     std::vector<VectorXd> means;

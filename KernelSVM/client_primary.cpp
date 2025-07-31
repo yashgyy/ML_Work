@@ -56,19 +56,33 @@ bool train_incrementally(const MatrixXd& data, const VectorXd& labels,
                 gradient(j) += -yi * rbf_kernel(data.row(j), xi, gamma);
         }
 
-        weights -= learning_rate * gradient;
+        weights -= learning_rate * gradient; // Local update of weights (keep this as it's part of client's local process)
         current_sample++;
         processed_samples++;
 
         if (processed_samples % TRAIN_BATCH_SIZE == 0) {
-            int batch_size = TRAIN_BATCH_SIZE;
-            int vector_size = weights.size();
-            boost::asio::write(socket, boost::asio::buffer(&batch_size, sizeof(int)));
-            boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
-            send_in_batches(socket, weights);
-            boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
-            ////std::cout<<"Send and Recieved"<<std::endl;
-        }
+        int batch_size = TRAIN_BATCH_SIZE;
+        // The gradient vector size is the same as weights.size(), as gradient is initialized using weights.size() [1]
+        int vector_size = gradient.size(); // Ensure vector_size reflects the gradient's size, which is same as weights.size()
+         boost::asio::write(socket, boost::asio::buffer(&batch_size, sizeof(int)));
+        boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
+        send_in_batches(socket, gradient); // <--- CHANGE THIS LINE TO SEND THE GRADIENT
+        boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
+}   
+
+        // weights -= learning_rate * gradient;
+        // current_sample++;
+        // processed_samples++;
+
+        // if (processed_samples % TRAIN_BATCH_SIZE == 0) {
+        //     int batch_size = TRAIN_BATCH_SIZE;
+        //     int vector_size = weights.size();
+        //     boost::asio::write(socket, boost::asio::buffer(&batch_size, sizeof(int)));
+        //     boost::asio::write(socket, boost::asio::buffer(&vector_size, sizeof(int)));
+        //     send_in_batches(socket, weights);
+        //     boost::asio::read(socket, boost::asio::buffer(weights.data(), weights.size() * sizeof(double)));
+        //     ////std::cout<<"Send and Recieved"<<std::endl;
+        // }
     }
 
     last_sample = current_sample;
