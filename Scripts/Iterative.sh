@@ -50,6 +50,7 @@ run_profiling() {
 # Main execution
 echo "AMD uProf Client Profiling Script (Iterative Mode)"
 echo "Make sure to run 'sudo modprobe msr' first!"
+echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
