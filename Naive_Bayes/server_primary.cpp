@@ -134,7 +134,7 @@ int main() {
 
             core_id = (core_id + 1) % 26;  // round-robin core assignment
 
-          //  std::cout << "[DEBUG] Client connected." << std::endl;
+            std::cout << "[DEBUG] Client connected." << std::endl;
 
             // Use std::move to transfer ownership of the socket
             //std::thread(handle_client, std::move(socket)).detach();
