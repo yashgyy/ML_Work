@@ -97,7 +97,7 @@ int main() {
 
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
+        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.0.25"), 12344));
 
         for (int epoch = 0; epoch < NUM_EPOCHS; ++epoch) {
             std::vector<DecisionTree> trees = train_trees(data, label_vec, TREES_PER_EPOCH);

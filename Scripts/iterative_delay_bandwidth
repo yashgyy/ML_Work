@@ -5,27 +5,13 @@ kill_port_12344() {
     lsof -i:12344 -t | xargs -r kill -9 2>/dev/null
 }
 
-# Function to wait for user confirmation (first app only)
+# Function to wait for user confirmation
 wait_for_confirmation() {
     local app_name=$1
     echo "========================================="
     echo "Ready to profile: $app_name"
     echo "Make sure the server script is ready!"
     read -p "Press Enter when ready to start profiling $app_name..."
-}
-
-# Function to wait with countdown for automatic start
-wait_with_countdown() {
-    local app_name=$1
-    echo "========================================="
-    echo "Next profiling: $app_name"
-    echo "Starting automatically in 60 seconds..."
-    
-    for i in {60..1}; do
-        printf "\rStarting $app_name in %2d seconds... (Press Ctrl+C to abort)" $i
-        sleep 1
-    done
-    printf "\rStarting $app_name now!                                        \n"
 }
 
 # Function to run profiling for an application
@@ -36,22 +22,21 @@ run_profiling() {
     
     echo "Starting profiling for $app_name..."
     kill_port_12344
-
-
+    
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    $AMD1 -m ipc,fp,l1,l2,l3 -d 300 -o "$output_path" -- "$app_path" &
+    # $AMD1 -m ipc,fp,l1,l2,l3 -d 300 -o "$output_path" -- "$app_path" &
     
-    # Give profiler time to start
-    sleep 1
+    # # Give profiler time to start
+    # sleep 2
     
     # Launch client instances
-    for i in {1..26}; do  
+    for i in {1..27}; do  
         $app_path &
     done
     
-    echo "Started 26 client instances for $app_name"
+    echo "Started 27 client instances for $app_name"
     echo "Profiling will run for 300 seconds..."
     
     # Wait for profiling to complete
@@ -65,6 +50,7 @@ run_profiling() {
 # Main execution
 echo "AMD uProf Client Profiling Script (Iterative Mode)"
 echo "Make sure to run 'sudo modprobe msr' first!"
+echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
@@ -80,7 +66,6 @@ declare -A applications=(
 )
 
 # Process each application
-first_app=true
 for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
@@ -90,22 +75,14 @@ for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelS
         
         # Check if application exists
         if [[ -f "$app_path" ]]; then
-            # Use manual confirmation for first app, automatic countdown for rest
-            if [[ "$first_app" == true ]]; then
-                wait_for_confirmation "$app_name"
-                first_app=false
-            else
-                wait_with_countdown "$app_name"
-            fi
-            
+            wait_for_confirmation "$app_name"
             run_profiling "$app_path" "$output_path" "$app_name"
             
-            # Add 1-minute delay after profiling (except for last application)
-            if [[ "$app_name" != "RF" ]]; then
-                echo "Profiling completed for $app_name"
-                echo "Waiting 1 minute before next application..."
+            # Ask if ready for next application
+            if [[ "$app_name" != "RF" ]]; then  # Don't ask after the last application
+                echo "Completed profiling for $app_name"
+                read -p "Ready for the next application? Press Enter to continue..."
                 echo ""
-                sleep 60
             fi
         else
             echo "Warning: Application not found: $app_path"
@@ -116,4 +93,4 @@ for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelS
 done
 
 echo "All profiling completed!"
-echo "Remember to collect the performance.csv files from each application's Client directory."
+#echo "Remember to collect the performance.csv files from each application's Client directory."
