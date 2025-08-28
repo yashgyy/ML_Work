@@ -61,7 +61,7 @@ declare -A applications=(
     ["LSVM"]="../LSVM/client ../LSVM/Client/performance_b.csv"
     ["KMeans"]="../KMeans/client ../KMeans/Client/performance_b.csv"
     ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance_b.csv"
-    ["RF"]="../RF/client ../RF/Client/performance.csv"
+    ["RF"]="../RF/client ../RF/Client/performance_b.csv"
 )
 
 # Process each application
