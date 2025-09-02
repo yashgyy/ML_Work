@@ -39,17 +39,17 @@ echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/Server/performance.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/Server/performance.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance.csv"
-    ["RF"]="../RF/server ../RF/Server/performance.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance_intel_server_amd_client_micro_server_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance_intel_server_amd_client_micro_server_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance_intel_server_amd_client_micro_server_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance_intel_server_amd_client_micro_server_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/Server/performance_intel_server_amd_client_micro_server_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/Server/performance_intel_server_amd_client_micro_server_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance_intel_server_amd_client_micro_server_adaboost.csv"
+    ["RF"]="../RF/server ../RF/Server/performance_intel_server_amd_client_micro_server_rf.csv"
 )
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})

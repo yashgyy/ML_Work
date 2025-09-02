@@ -39,14 +39,14 @@ echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance_b.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance_b.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance_b.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance_b.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/Server/performance_b.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/Server/performance_b.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance_b.csv"
-    ["RF"]="../RF/server ../RF/Server/performance_b.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance_intel_server_amd_client_serverbandwidth_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance_intel_server_amd_client_serverbandwidth_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance_intel_server_amd_client_serverbandwidth_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance_intel_server_amd_client_serverbandwidth_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/Server/performance_intel_server_amd_client_serverbandwidth_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/Server/performance_intel_server_amd_client_serverbandwidth_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance_intel_server_amd_client_serverbandwidth_adaboost.csv"
+    ["RF"]="../RF/server ../RF/Server/performance_intel_server_amd_client_serverbandwidth_rf.csv"
 )
 # Process each application
 for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
