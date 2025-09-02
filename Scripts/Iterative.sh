@@ -26,10 +26,10 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    $AMD1 -m ipc,fp,l1,l2,l3 -d 300 -o "$output_path" -- "$app_path" &
+    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 300 -o "$output_path" -- "$app_path" &
     
     # Give profiler time to start
-    sleep 2
+    sleep 1
     
     # Launch client instances
     for i in {1..26}; do  
@@ -55,18 +55,18 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/Client/performance.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/Client/performance.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance.csv"
-    ["RF"]="../RF/client ../RF/Client/performance.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance_amd_client_intel_server_micro_client_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance_amd_client_intel_server_micro_client_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance_amd_client_intel_server_micro_client_linear"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance_amd_client_intel_server_micro_client_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/Client/performance_amd_client_intel_server_micro_client_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/Client/performance_amd_client_intel_server_micro_client_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance_amd_client_intel_server_micro_client_adaboost.csv"
+    ["RF"]="../RF/client ../RF/Client/performance_amd_client_intel_server_micro_client_rf.csv"
 )
 
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
