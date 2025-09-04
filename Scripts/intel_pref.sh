@@ -38,16 +38,17 @@ echo "Perf Server Profiling Script (Iterative Mode)"
 echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
-declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance_intel_server_amd_client_micro_server_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance_intel_server_amd_client_micro_server_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance_intel_server_amd_client_micro_server_linear.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance_intel_server_amd_client_micro_server_ksvm.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/Server/performance_intel_server_amd_client_micro_server_lsvm.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/Server/performance_intel_server_amd_client_micro_server_kmeans.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance_intel_server_amd_client_micro_server_adaboost.csv"
-    ["RF"]="../RF/server ../RF/Server/performance_intel_server_amd_client_micro_server_rf.csv"
+declare -A applications= (
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_AMDC_micro_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_AMDC_micro_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_AMDC_micro_performance.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_AMDC_micro_performance.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/IS_AMDC_micro_performance.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/IS_AMDC_micro_performance.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_AMDC_micro_performance.csv"
+    ["RF"]="../RF/server ../RF/IS_AMDC_micro_performance.csv"
 )
+
 # Process each application
 for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
