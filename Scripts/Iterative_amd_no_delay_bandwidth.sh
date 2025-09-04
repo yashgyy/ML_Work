@@ -40,15 +40,15 @@ echo "Make sure to run 'sudo modprobe msr' first!"
 echo ""
 
 # Define applications to profile
-declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/Server/performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/Server/performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/Server/performance.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/Server/performance.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/Server/performance.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/Server/performance.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/Server/performance.csv"
-    ["RF"]="../RF/server ../RF/Server/performance.csv"
+declare -A applications= (
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_IC_bandwidth_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_IC_bandwidth_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_IC_bandwidth_performance.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/AMDS_IC_bandwidth_performance.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/AMDS_IC_bandwidth_performance.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/AMDS_IC_bandwidth_performance.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/AMDS_IC_bandwidth_performance.csv"
+    ["RF"]="../RF/server ../RF/AMDS_IC_bandwidth_performance.csv"
 )
 
 # Process each application
