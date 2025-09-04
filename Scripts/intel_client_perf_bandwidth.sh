@@ -29,13 +29,13 @@ run_profiling() {
     perf stat --timeout 300000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path" &
     
     # Give profiler time to start
-    sleep 2
+    sleep 1
     
     # Launch client instances
-    for i in {1..26}; do  
+    for i in {1..25}; do  
         $app_path &
     done
-    
+
     echo "Started 26 client instances for $app_name"
     echo "Profiling will run for 300 seconds..."
     
@@ -54,14 +54,14 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance_b.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance_b.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance_b.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance_b.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/Client/performance_b.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/Client/performance_b.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance_b.csv"
-    ["RF"]="../RF/client ../RF/Client/performance_b.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_bandwidth_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_bandwidth_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_bandwidth_performance.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_bandwidth_performance.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_bandwidth_performance.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_bandwidth_performance.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_bandwidth_performance.csv"
+    ["RF"]="../RF/client ../RF/IC_AMDS_bandwidth_performance.csv"
 )
 
 # Process each application

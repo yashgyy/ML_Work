@@ -29,10 +29,10 @@ run_profiling() {
     perf stat --timeout 300000 -e L1-icache-load-misses,icache_64b.iftag_hit,icache_64b.iftag_miss,L1-dcache-load-misses,L1-dcache-loads,l2_rqsts.miss,l2_rqsts.references,LLC-load-misses,LLC-loads,l2_rqsts.all_code_rd -o "$output_path" -x , "$app_path" &
     
     # Give profiler time to start
-    sleep 2
+    sleep 1
     
     # Launch client instances
-    for i in {1..26}; do  
+    for i in {1..25}; do  
         $app_path &
     done
     
@@ -54,14 +54,14 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/Client/performance.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/Client/performance.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance.csv"
-    ["RF"]="../RF/client ../RF/Client/performance.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_micro_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_micro_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_micro_performance.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_micro_performance.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_micro_performance.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_micro_performance.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_micro_performance.csv"
+    ["RF"]="../RF/client ../RF/IC_AMDS_micro_performance.csv"
 )
 
 # Process each application
