@@ -32,7 +32,7 @@ run_profiling() {
     sleep 1
     
     # Launch client instances
-    for i in {1..26}; do  
+    for i in {1..25}; do  
         $app_path &
     done
     
@@ -54,16 +54,17 @@ echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
-declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance_amd_client_intel_server_micro_client_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance_amd_client_intel_server_micro_client_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance_amd_client_intel_server_micro_client_linear"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance_amd_client_intel_server_micro_client_ksvm.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/Client/performance_amd_client_intel_server_micro_client_lsvm.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/Client/performance_amd_client_intel_server_micro_client_kmeans.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance_amd_client_intel_server_micro_client_adaboost.csv"
-    ["RF"]="../RF/client ../RF/Client/performance_amd_client_intel_server_micro_client_rf.csv"
+declare -A applications= (
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_IS_micro_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_micro_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_micro_performance.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_IS_micro_performance.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/AMDC_IS_micro_performance.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/AMDC_IS_micro_performance.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_IS_micro_performance.csv"
+    ["RF"]="../RF/client ../RF/AMDC_IS_micro_performance.csv"
 )
+
 
 # Process each application
 for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
