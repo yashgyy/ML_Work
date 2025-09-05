@@ -54,7 +54,7 @@ echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
-declare -A applications= (
+declare -A applications=(
     ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_IS_bandwidth_performance.csv"
     ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_bandwidth_performance.csv"
     ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_bandwidth_performance.csv"

@@ -54,15 +54,15 @@ echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
-declare -A applications= (
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_IS_micro_performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_micro_performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_micro_performance.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_IS_micro_performance.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/AMDC_IS_micro_performance.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/AMDC_IS_micro_performance.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_IS_micro_performance.csv"
-    ["RF"]="../RF/client ../RF/AMDC_IS_micro_performance.csv"
+declare -A applications=(
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_IS_micro_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_micro_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_micro_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_IS_micro_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/AMDC_IS_micro_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/AMDC_IS_micro_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_IS_micro_performance_adaboost.csv"
+    ["RF"]="../RF/client ../RF/AMDC_IS_micro_performance_rf.csv"
 )
 
 

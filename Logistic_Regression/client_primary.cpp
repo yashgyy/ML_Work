@@ -105,18 +105,18 @@ void train_and_send_batches(tcp::socket& socket, MatrixXd& data, VectorXd& label
                    //   << weights.head(10).transpose() << std::endl;
         }
     }
-        std::vector<std::vector<float>> test_features;
-        std::vector<int> test_labels;
-        load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
-        //load_data("../Datasets/SUSY.csv", test_features, test_labels);
-        //load_data("../Datasets/HIGGS.csv", test_features, test_labels);
+        // std::vector<std::vector<float>> test_features;
+        // std::vector<int> test_labels;
+        // load_data("../Datasets/santander-customer-transaction-prediction.csv", test_features, test_labels);
+        // //load_data("../Datasets/SUSY.csv", test_features, test_labels);
+        // //load_data("../Datasets/HIGGS.csv", test_features, test_labels);
 
-        MatrixXd test_data(test_features.size(), test_features[0].size());
-        for (size_t i = 0; i < test_features.size(); ++i) {
-            for (size_t j = 0; j < test_features[i].size(); ++j) {
-                test_data(i, j) = test_features[i][j];
-            }
-        }
+        // MatrixXd test_data(test_features.size(), test_features[0].size());
+        // for (size_t i = 0; i < test_features.size(); ++i) {
+        //     for (size_t j = 0; j < test_features[i].size(); ++j) {
+        //         test_data(i, j) = test_features[i][j];
+        //     }
+        // }
 
       //  predict_samples(test_data, weights);
     
