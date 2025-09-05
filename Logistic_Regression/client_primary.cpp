@@ -7,6 +7,7 @@
 #include "data_loader.cpp" // Include the data loader
 //#include "data_loader_susy.cpp"
 //#include "data_loader_higgs.cpp"
+//  g++ client_primary.cpp -o client  -I /usr/include/eigen3
 // g++ client_updated.cpp -o client  -I /usr/include/eigen3
 
 using namespace Eigen;
