@@ -92,7 +92,7 @@ int main() {
         std::vector<float> features;
         std::vector<int> labels;
        
-        load_data("../Datasets/circles.csv", features, labels);
+        load_data("../Datasets/circular_points.csv", features, labels);
         // Convert to Eigen matrices
         MatrixXd local_data(features.size(), 2);
         for (size_t i = 0; i < features.size(); ++i) {

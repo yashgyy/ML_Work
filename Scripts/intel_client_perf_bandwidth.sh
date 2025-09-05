@@ -54,18 +54,18 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_bandwidth_performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_bandwidth_performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_bandwidth_performance.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_bandwidth_performance.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_bandwidth_performance.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_bandwidth_performance.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_bandwidth_performance.csv"
-    ["RF"]="../RF/client ../RF/IC_AMDS_bandwidth_performance.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_bandwidth_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_bandwidth_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_bandwidth_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_bandwidth_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_bandwidth_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_bandwidth_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_bandwidth_performance_adaboost.csv"
+    ["RF"]="../RF/client ../RF/IC_AMDS_bandwidth_performance_rf.csv"
 )
 
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})

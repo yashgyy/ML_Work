@@ -125,7 +125,7 @@ int main() {
 
         for (int epoch = 0; epoch < MAX_EPOCHS; ++epoch) {
             bool exit = train_incrementally(local_data, local_labels, local_weights, learning_rate, gamma, socket);
-            if (exit) break;
+           // if (exit) break;
         }
 
         socket.close();
