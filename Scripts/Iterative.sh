@@ -56,8 +56,8 @@ echo ""
 # Define applications to profile
 declare -A applications=(
     ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_AMDS_micro_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_micro_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_micro_performance_linear.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_AMDS_micro_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_AMDS_micro_performance_linear.csv"
     ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_AMDS_micro_performance_ksvm.csv"
     ["LSVM"]="../LSVM/client ../LSVM/AMDC_AMDS_micro_performance_lsvm.csv"
     ["KMeans"]="../KMeans/client ../KMeans/AMDC_AMDS_micro_performance_kmeans.csv"
