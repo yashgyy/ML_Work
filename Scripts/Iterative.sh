@@ -32,10 +32,10 @@ run_profiling() {
     sleep 2
     
     # Launch client instances
-    for i in {1..26}; do  
+    for i in {1..25}; do  
         $app_path &
     done
-    
+
     echo "Started 26 client instances for $app_name"
     echo "Profiling will run for 300 seconds..."
     
@@ -54,16 +54,17 @@ echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
-declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/Client/performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/Client/performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/Client/performance.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/Client/performance.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/Client/performance.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/Client/performance.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/Client/performance.csv"
-    ["RF"]="../RF/client ../RF/Client/performance.csv"
+declare -A applications= (
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_AMDS_micro_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_IS_micro_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_IS_micro_performance.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_AMDS_micro_performance.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/AMDC_AMDS_micro_performance.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/AMDC_AMDS_micro_performance.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_AMDS_micro_performance.csv"
+    ["RF"]="../RF/client ../RF/AMDC_AMDS_micro_performance.csv"
 )
+
 
 # Process each application
 for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
