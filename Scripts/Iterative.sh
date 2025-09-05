@@ -40,19 +40,19 @@ echo "Make sure to run 'sudo modprobe msr' first!"
 echo ""
 
 # Define applications to profile
-declare -A applications= (
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_IC_micro_performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_IC_micro_performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_IC_micro_performance.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/AMDS_IC_micro_performance.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/AMDS_IC_micro_performance.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/AMDS_IC_micro_performance.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/AMDS_IC_micro_performance.csv"
-    ["RF"]="../RF/server ../RF/AMDS_IC_micro_performance.csv"
+declare -A applications=(
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_IC_micro_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_IC_micro_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_IC_micro_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/AMDS_IC_micro_performance_kernel.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/AMDS_IC_micro_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/AMDS_IC_micro_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/AMDS_IC_micro_performance_adaboost.csv"
+    ["RF"]="../RF/server ../RF/AMDS_IC_micro_performance_rf.csv"
 )
 
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM"  "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})

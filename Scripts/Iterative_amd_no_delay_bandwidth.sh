@@ -27,7 +27,7 @@ run_profiling() {
     
     # Start server with profiling
     echo "Launching server with profiler..."
-    $app_path
+    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 300 -o "temp.csv" -- "$app_path"
     
     echo "Server profiling completed for $app_name"
     echo "Output saved to: $output_path"
@@ -40,7 +40,7 @@ echo "Make sure to run 'sudo modprobe msr' first!"
 echo ""
 
 # Define applications to profile
-declare -A applications= (
+declare -A applications=(
     ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_IC_bandwidth_performance.csv"
     ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_IC_bandwidth_performance.csv"
     ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_IC_bandwidth_performance.csv"
@@ -52,7 +52,7 @@ declare -A applications= (
 )
 
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM"  "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
