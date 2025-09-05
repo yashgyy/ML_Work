@@ -41,14 +41,14 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_AMDC_micro_performance.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_AMDC_micro_performance.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_AMDC_micro_performance.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/AMDS_AMDC_micro_performance.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/AMDS_AMDC_micro_performance.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/AMDS_AMDC_micro_performance.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/AMDS_AMDC_micro_performance.csv"
-    ["RF"]="../RF/server ../RF/AMDS_AMDC_micro_performance.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/AMDS_AMDC_micro_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/AMDS_AMDC_micro_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/AMDS_AMDC_micro_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/AMDS_AMDC_micro_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/AMDS_AMDC_micro_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/AMDS_AMDC_micro_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/AMDS_AMDC_micro_performance_adaboost.csv"
+    ["RF"]="../RF/server ../RF/AMDS_AMDC_micro_performance_rf.csv"
 )
 
 # Process each application

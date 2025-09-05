@@ -13,6 +13,8 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
+// g++ server_primary.cpp -o server  -I /usr/include/eigen3
+
 std::mutex model_mutex;  // Mutex for thread-safe operations
 VectorXd global_weights;  // Store the global model
 VectorXd total_gradients; // Accumulate gradients for averaging
