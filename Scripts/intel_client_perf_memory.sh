@@ -53,14 +53,14 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_micro_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_micro_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_micro_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_micro_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_micro_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_micro_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_micro_performance_adaboost.csv"
-    ["RF"]="../RF/client ../RF/IC_AMDS_micro_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_IS_micro_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_IS_micro_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_IS_micro_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_IS_micro_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/IC_IS_micro_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/IC_IS_micro_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_IS_micro_performance_adaboost.csv"
+    ["RF"]="../RF/client ../RF/IC_IS_micro_performance_rf.csv"
 )
 
 # Process each application
