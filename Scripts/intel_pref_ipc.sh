@@ -39,14 +39,14 @@ echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_AMDC_ipc_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_AMDC_ipc_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_AMDC_ipc_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_AMDC_ipc_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/IS_AMDC_ipc_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/IS_AMDC_ipc_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_AMDC_ipc_performance_adaboost.csv"
-    ["RF"]="../RF/server ../RF/IS_AMDC_ipc_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_IC_ipc_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_IC_ipc_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_IC_ipc_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_IC_ipc_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/IS_IC_ipc_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/IS_IC_ipc_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_IC_ipc_performance_adaboost.csv"
+    ["RF"]="../RF/server ../RF/IS_IC_ipc_performance_rf.csv"
 )
 
 # Process each application
