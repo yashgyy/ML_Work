@@ -27,7 +27,8 @@ run_profiling() {
     
     # Start server with profiling using perfvs
     echo "Launching server with profiler..."
-    perf  stat --timeout 300000 -e l2_rqsts.demand_data_rd_miss -o "$output_path" -x , "$app_path"
+    perf stat --timeout 300000 -e instructions,cpu-cycles -o "$output_path" -x , "$app_path" &
+
     echo "Server profiling completed for $app_name"
     echo "Output saved to: $output_path"
     echo ""
