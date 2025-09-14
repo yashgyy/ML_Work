@@ -26,9 +26,10 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 300000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path" &
-    
-    # Give profiler time to start
+    perf stat --timeout 30000 \
+    -e amd_umc/umc_cas_cmd.rd/,amd_umc/umc_cas_cmd.wr/,amd_umc/umc_cas_cmd.all/ \
+    -o "$output_path" -x , "$app_path" &
+
     sleep 1
     
     # Launch client instances
@@ -54,18 +55,18 @@ echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_AMDS_ipc_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_AMDS_ipc_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_AMDS_ipc_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_AMDS_ipc_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/AMDC_AMDS_ipc_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/AMDC_AMDS_ipc_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_AMDS_ipc_performance_adaboost.csv"
-    ["RF"]="../RF/client ../RF/AMDC_AMDS_ipc_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/AMDC_AMDS_bandwidth_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/AMDC_AMDS_bandwidth_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/AMDC_AMDS_bandwidth_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/AMDC_AMDS_bandwidth_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/AMDC_AMDS_bandwidth_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/AMDC_AMDS_bandwidth_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/AMDC_AMDS_bandwidth_performance_adaboost.csv"
+    ["RF"]="../RF/client ../RF/AMDC_AMDS_bandwidth_performance_rf.csv"
 )
 
 # Process each application
-for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
+for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
