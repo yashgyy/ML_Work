@@ -10,7 +10,7 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int NUM_EPOCHS = 50;
+const int NUM_EPOCHS = 200;
 const int TREES_PER_EPOCH = 5;
 
 struct DecisionTree {

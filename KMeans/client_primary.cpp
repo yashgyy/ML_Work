@@ -12,7 +12,7 @@ using namespace Eigen;
 using boost::asio::ip::tcp;
 
 const int K = 3; // number of clusters
-const int MAX_ITERS = 150;
+const int MAX_ITERS = 200;
 const int NETWORK_BATCH_SIZE = 128;
 
 // Function to simulate local data

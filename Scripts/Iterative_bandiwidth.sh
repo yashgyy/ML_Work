@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 30000 \
+    perf stat --timeout 300000 \
     -e amd_umc/umc_cas_cmd.rd/,amd_umc/umc_cas_cmd.wr/,amd_umc/umc_cas_cmd.all/ \
     -o "$output_path" -x , "$app_path" &
 

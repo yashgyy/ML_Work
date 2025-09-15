@@ -11,7 +11,7 @@
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
-const int MAX_EPOCHS = 50;
+const int MAX_EPOCHS = 200;
 const int TRAIN_BATCH_SIZE = 512;
 const int NETWORK_BATCH_SIZE = 512;
 
