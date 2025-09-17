@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 300 -o "$output_path" -- "$app_path" &
+    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 30 -o "$output_path" -- "$app_path" &
     
     # Give profiler time to start
     sleep 1
@@ -67,7 +67,7 @@ declare -A applications=(
 
 
 # Process each application
-for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
+for app_name in "KernelSVM" "Adaboost" "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "LSVM" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
