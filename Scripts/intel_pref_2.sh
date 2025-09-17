@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 30000 -e cycles,instructions -o "$output_path" -x , "$app_path" &
+    perf stat --timeout 30000 -e l2_rqsts.code_rd_miss,l2_rqsts.demand_data_rd_miss,L1-dcache-loads -o "$output_path" -x , "$app_path" &
     
     # Give profiler time to start
     sleep 1
@@ -53,16 +53,15 @@ echo "Make sure to run 'sudo modprobe msr' first!"
 echo ""
 
 # Define applications to profile
-
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_ipc_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_ipc_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_ipc_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_ipc_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_ipc_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_ipc_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_ipc_performance_adaboost.csv"
-    ["RF"]="../RF/client ../RF/IC_AMDS_ipc_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_AMDS_micro2_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_AMDS_micro2_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_AMDS_micro2_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_AMDS_micro2_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/client ../LSVM/IC_AMDS_micro2_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/client ../KMeans/IC_AMDS_micro2_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_AMDS_micro2_performance_adaboost.csv"
+    ["RF"]="../RF/client ../RF/IC_AMDS_micro2_performance_rf.csv"
 )
 
 # Process each application
