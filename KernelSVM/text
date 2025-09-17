@@ -1,0 +1,6 @@
+# started on Wed Sep 17 13:28:07 2025
+
+552412,,l2_rqsts.miss,11105384,100.00,,
+794240,,l2_rqsts.references,11105384,100.00,,
+37939,,LLC-load-misses,11105384,100.00,47.95,of all LL-cache accesses
+79119,,LLC-loads,11105384,100.00,,

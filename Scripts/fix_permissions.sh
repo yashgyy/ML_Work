@@ -24,3 +24,5 @@ sudo chmod 770 /mnt/combined
 sudo chmod 755 /mnt/combined/home
 
 echo "Parent directory permissions fixed."
+
+

@@ -25,12 +25,12 @@ run_profiling() {
     mkdir -p "$output_dir"
     echo "Created output directory: $output_dir"
     
-    # Start server with profiling using perfvs
+    # Start server with profiling using perf
     echo "Launching server with profiler..."
-    perf stat --timeout 30000 -e L1-icache-load-misses,icache_64b.iftag_hit,icache_64b.iftag_miss,L1-dcache-load-misses -o "$output_path" -x , "$app_path"
- 
-
-  echo "Output saved to: $output_path"
+    perf stat --timeout 30000 -e cycles,instructions -o "$output_path" -x , "$app_path" 
+    
+    echo "Server profiling completed for $app_name"
+    echo "Output saved to: $output_path"
     echo ""
 }
 # Main execution
@@ -39,16 +39,15 @@ echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_AMDC_micro_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_AMDC_micro_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_AMDC_micro_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_AMDC_micro_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/IS_AMDC_micro_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/IS_AMDC_micro_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_AMDC_micro_performance_adaboost.csv"
-    ["RF"]="../RF/server ../RF/IS_AMDC_micro_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_AMDC_ipc_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_AMDC_ipc_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_AMDC_ipc_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_AMDC_ipc_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/IS_AMDC_ipc_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/IS_AMDC_ipc_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_AMDC_ipc_performance_adaboost.csv"
+    ["RF"]="../RF/server ../RF/IS_AMDC_ipc_performance_rf.csv"
 )
-
 # Process each application
 for app_name in "KernelSVM" "Adaboost" "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "LSVM" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
