@@ -27,7 +27,7 @@ run_profiling() {
     
     # Start server with profiling using perfvs
     echo "Launching server with profiler..."
-    perf stat --timeout 30000 -e l2_rqsts.miss,l2_rqsts.references,LLC-load-misses,LLC-loads -o "$output_path" -x , "$app_path"
+    perf stat --timeout 300000 -e l2_rqsts.miss,l2_rqsts.references,LLC-load-misses,LLC-loads -o "$output_path" -x , "$app_path"
  
 
   echo "Output saved to: $output_path"

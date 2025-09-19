@@ -27,7 +27,7 @@ run_profiling() {
     
     # Start server with profiling using perfvs
     echo "Launching server with profiler..."
-    perf stat --timeout 30000 -e L1-icache-load-misses,icache_64b.iftag_hit,icache_64b.iftag_miss,L1-dcache-load-misses -o "$output_path" -x , "$app_path"
+    perf stat --timeout 300000 -e L1-icache-load-misses,icache_64b.iftag_hit,icache_64b.iftag_miss,L1-dcache-load-misses -o "$output_path" -x , "$app_path"
  
 
   echo "Output saved to: $output_path"

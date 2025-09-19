@@ -27,7 +27,7 @@ run_profiling() {
     
     # Start server with profiling using perf
     echo "Launching server with profiler..."
-    perf stat --timeout 30000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path"
+    perf stat --timeout 300000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path"
     
     echo "Server profiling completed for $app_name"
     echo "Output saved to: $output_path"
