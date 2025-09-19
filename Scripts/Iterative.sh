@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 30 -o "$output_path" -- "$app_path" &
+    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 300 -o "$output_path" -- "$app_path" &
     
     # Give profiler time to start
     sleep 1
