@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 30000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path" &
+    perf stat --timeout 300000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path" &
     sleep 1
     
     # Launch client instances

@@ -26,7 +26,7 @@ run_profiling() {
     AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 30000 -e l2_rqsts.code_rd_miss,l2_rqsts.demand_data_rd_miss,L1-dcache-loads -o "$output_path" -x , "$app_path" &
+    perf stat --timeout 300000 -e l2_rqsts.code_rd_miss,l2_rqsts.demand_data_rd_miss,L1-dcache-loads -o "$output_path" -x , "$app_path" &
     
     # Give profiler time to start
     sleep 1
