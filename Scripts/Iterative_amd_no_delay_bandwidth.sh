@@ -27,7 +27,7 @@ run_profiling() {
     
     # Start server with profiling
     echo "Launching server with profiler..."
-    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 30 -o "temp.csv" -- "$app_path"
+    $AMD1 -m ipc,fp,l1,l2,memory,l3 -d 300 -o "temp.csv" -- "$app_path"
     
     echo "Server profiling completed for $app_name"
     echo "Output saved to: $output_path"
