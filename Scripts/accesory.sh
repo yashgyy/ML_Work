@@ -23,19 +23,19 @@ run_profiling() {
     echo "Starting profiling for $app_name..."
     kill_port_12344
     
-    AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
+    #AMD1=/opt/AMDuProf_5.0-1479/bin/AMDuProfPcm
     
     # Start profiler in background
-    perf stat --timeout 300000 -e unc_m_cas_count.rd_reg,unc_m_cas_count.wr_wmm,unc_m_cas_count.all -o "$output_path" -x , "$app_path" &
+    # $AMD1 -m ipc,fp,l1,l2,l3 -d 300 -o "$output_path" -- "$app_path" &
     
-    # Give profiler time to start
-    sleep 1
+    # # Give profiler time to start
+    # sleep 2
     
     # Launch client instances
-    for i in {1..25}; do  
+    for i in {1..26}; do  
         $app_path &
     done
-
+    
     echo "Started 26 client instances for $app_name"
     echo "Profiling will run for 300 seconds..."
     
@@ -50,22 +50,23 @@ run_profiling() {
 # Main execution
 echo "AMD uProf Client Profiling Script (Iterative Mode)"
 echo "Make sure to run 'sudo modprobe msr' first!"
+echo "sudo modprobe amd_uncore"
 echo ""
 
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/client ../Naive_Bayes/IC_IS_bandwidth_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/client ../Logistic_Regression/IC_IS_bandwidth_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/client ../Linear_Regression/IC_IS_bandwidth_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/client ../KernelSVM/IC_IS_bandwidth_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/client ../LSVM/IC_IS_bandwidth_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/client ../KMeans/IC_IS_bandwidth_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/client ../Adaboost/IC_IS_bandwidth_performance_adaboost.csv"
-    ["RF"]="../RF/client ../RF/IC_IS_bandwidth_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/client.exe ../Naive_Bayes/AMDC_IS_bandwidth_performance.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/client.exe ../Logistic_Regression/AMDC_IS_bandwidth_performance.csv"
+    ["Linear_Regression"]="../Linear_Regression/client.exe ../Linear_Regression/AMDC_IS_bandwidth_performance.csv"
+    ["KernelSVM"]="../KernelSVM/client.exe ../KernelSVM/AMDC_IS_bandwidth_performance.csv"
+    ["LSVM"]="../LSVM/client.exe ../LSVM/AMDC_IS_bandwidth_performance.csv"
+    ["KMeans"]="../KMeans/client.exe ../KMeans/AMDC_IS_bandwidth_performance.csv"
+    ["Adaboost"]="../Adaboost/client.exe ../Adaboost/AMDC_IS_bandwidth_performance.csv"
+    ["RF"]="../RF/client.exe ../RF/AMDC_IS_bandwidth_performance.csv"
 )
 
 # Process each application
-for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
+for app_name in "RF" "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" ; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
@@ -92,4 +93,4 @@ for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression"
 done
 
 echo "All profiling completed!"
-echo "Remember to collect the performance.csv files from each application's Client directory."
+#echo "Remember to collect the performance.csv files from each application's Client directory."

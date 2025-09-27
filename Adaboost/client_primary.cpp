@@ -11,6 +11,7 @@ using boost::asio::ip::tcp;
 
 const int NUM_EPOCHS = 50;
 const int LEARNERS_PER_EPOCH = 5;
+//g++ client_primary.cpp -IC:\local\boost_1_89_0 -IC:\local\eigen-3.4.0 -lws2_32 -o client.exe
 
 struct WeakLearner {
     int feature_index;
@@ -81,7 +82,9 @@ int main() {
     try {
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
+        socket.connect(tcp::endpoint(boost::asio::ip::make_address("10.13.0.25"), 12344));
+        
+        //std::cout<<"CONNECTED"<<std::endl;
 
         std::vector<std::vector<float>> features;
         std::vector<int> labels;

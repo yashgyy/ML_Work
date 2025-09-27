@@ -109,7 +109,9 @@ int main() {
         
   
 
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
+       socket.connect(tcp::endpoint(boost::asio::ip::make_address("10.13.0.25"), 12344));
+        
+        //std::cout<<"CONNECTED"<<std::endl;
 
         train_and_send_batches(socket, data, label_vec, weights);
         socket.close();

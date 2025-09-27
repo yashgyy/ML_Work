@@ -9,6 +9,7 @@
 //#include "data_loader_higgs.cpp"
 // g++ client_updated.cpp -o client  -I /usr/include/eigen3
 
+
 using namespace Eigen;
 using boost::asio::ip::tcp;
 
@@ -148,7 +149,10 @@ int main() {
         VectorXd weights = VectorXd::Zero(local_data.cols());
 
         // **Connect to server**
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
+       socket.connect(tcp::endpoint(boost::asio::ip::make_address("10.13.0.25"), 12344));
+        
+       //std::cout<<"CONNECTED"<<std::endl;
+
 
         // **Start training and sending updates**
         train_and_send_batches(socket, local_data, local_labels, weights);

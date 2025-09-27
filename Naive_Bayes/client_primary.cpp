@@ -177,7 +177,9 @@ int main() {
 
         boost::asio::io_context io_context;
         tcp::socket socket(io_context);
-        socket.connect(tcp::endpoint(boost::asio::ip::address::from_string("10.13.3.247"), 12344));
+        socket.connect(tcp::endpoint(boost::asio::ip::make_address("10.13.0.25"), 12344));
+        
+       // std::cout<<"CONNECTED"<<std::endl;
 
         send_batches_and_receive_updates(socket, local_data, local_labels, NUM_EPOCHS, num_classes);
 
