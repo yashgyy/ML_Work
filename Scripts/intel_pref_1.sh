@@ -27,10 +27,10 @@ run_profiling() {
     
     # Start server with profiling using perf
     echo "Launching server with profiler..."
-    perf stat --timeout 300000 -e L1-icache-load-misses,icache_64b.iftag_hit,icache_64b.iftag_miss,L1-dcache-load-misses -o "$output_path" -x , "$app_path" 
+    perf stat --timeout 300000 -e l2_rqsts.miss,l2_rqsts.references,LLC-load-misses,LLC-loads -o "$output_path" -x , "$app_path"
  
 
-  echo "Output saved to: $output_path"
+    echo "Output saved to: $output_path"
     echo ""
 }
 # Main execution
@@ -39,14 +39,14 @@ echo "Make sure you have appropriate permissions for perf!"
 echo ""
 # Define applications to profile
 declare -A applications=(
-    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_IC_micro_performance_nb.csv"
-    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_IC_micro_performance_lr.csv"
-    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_IC_micro_performance_linear.csv"
-    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_IC_micro_performance_ksvm.csv"
-    ["LSVM"]="../LSVM/server ../LSVM/IS_IC_micro_performance_lsvm.csv"
-    ["KMeans"]="../KMeans/server ../KMeans/IS_IC_micro_performance_kmeans.csv"
-    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_IC_micro_performance_adaboost.csv"
-    ["RF"]="../RF/server ../RF/IS_IC_micro_performance_rf.csv"
+    ["Naive_Bayes"]="../Naive_Bayes/server ../Naive_Bayes/IS_IC_micro1_performance_nb.csv"
+    ["Logistic_Regression"]="../Logistic_Regression/server ../Logistic_Regression/IS_IC_micro1_performance_lr.csv"
+    ["Linear_Regression"]="../Linear_Regression/server ../Linear_Regression/IS_IC_micro1_performance_linear.csv"
+    ["KernelSVM"]="../KernelSVM/server ../KernelSVM/IS_IC_micro1_performance_ksvm.csv"
+    ["LSVM"]="../LSVM/server ../LSVM/IS_IC_micro1_performance_lsvm.csv"
+    ["KMeans"]="../KMeans/server ../KMeans/IS_IC_micro1_performance_kmeans.csv"
+    ["Adaboost"]="../Adaboost/server ../Adaboost/IS_IC_micro1_performance_adaboost.csv"
+    ["RF"]="../RF/server ../RF/IS_IC_micro1_performance_rf.csv"
 )
 
 # Process each application

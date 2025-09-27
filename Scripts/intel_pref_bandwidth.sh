@@ -49,7 +49,7 @@ declare -A applications=(
     ["RF"]="../RF/server ../RF/IS_IC_bandwidth_performance_rf.csv"
 )
 # Process each application
-for app_name in "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "KMeans" "Adaboost" "RF"; do
+for app_name in "KMeans" "Naive_Bayes" "Logistic_Regression" "Linear_Regression" "KernelSVM" "LSVM" "Adaboost" "RF"; do
     if [[ -n "${applications[$app_name]}" ]]; then
         # Parse application path and output path
         app_info=(${applications[$app_name]})
